@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import axios from './api/axios';
+import axios from '../api/axios';
 
 import { useNavigate } from "react-router-dom";
 
@@ -61,40 +61,41 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
-        // const v1 = USER_REGEX.test(user);
-        // const v2 = PWD_REGEX.test(pwd);
-        // if (!v1 || !v2) {
-        //     setErrMsg("Invalid Entry");
-        //     return;
-        // }
-        // try {
-        //     const response = await axios.post(REGISTER_URL,
-        //         JSON.stringify({ user, pwd }),
-        //         {
-        //             headers: { 'Content-Type': 'application/json' },
-        //             withCredentials: true
-        //         }
-        //     );
-        //     console.log(response?.data);
-        //     console.log(response?.accessToken);
-        //     console.log(JSON.stringify(response))
-            console.log(user,pwd,mobileNo);
-            setSuccess(true);
+        const v1 = USER_REGEX.test(user);
+        const v2 = PWD_REGEX.test(pwd);
+        if (!v1 || !v2) {
+            setErrMsg("Invalid Entry");
+            return;
+        }
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(response?.data);
+            console.log(response?.accessToken);
+            console.log(JSON.stringify(response))
+            Navigate("/login")
+            // console.log(user,pwd,mobileNo);
+            // setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this
             setUser('');
             setPwd('');
             setMatchPwd('');
-        // } catch (err) {
-        //     if (!err?.response) {
-        //         setErrMsg('No Server Response');
-        //     } else if (err.response?.status === 409) {
-        //         setErrMsg('Username Taken');
-        //     } else {
-        //         setErrMsg('Registration Failed')
-        //     }
-        //     errRef.current.focus();
-        // }
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username Taken');
+            } else {
+                setErrMsg('Registration Failed')
+            }
+            errRef.current.focus();
+        }
     }
 
     return (
@@ -215,7 +216,7 @@ const Register = () => {
                         Already registered?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a style={{cursor:"pointer"}} onClick={()=>{Navigate("/login")}}>Sign In</a>
+                            <a style={{cursor:"pointer"}} onClick={()=>{Navigate("/login")}}>Login</a>
                         </span>
                     </p>
                 </section>

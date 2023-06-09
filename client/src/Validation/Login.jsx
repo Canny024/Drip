@@ -2,15 +2,15 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import { Box } from '@mui/material';
 import Topbar from '../scenes/Globals/Topbar';
 import { useNavigate } from "react-router-dom";
-// import AuthContext from "./context/AuthProvider";
+import AuthContext from "../context/AuthProvider";
 
 import "./register.css"
 
-// import axios from './api/axios';
+import axios from '../api/axios';
 const LOGIN_URL = '/auth';
 
 const Login = () => {
-    // const { setAuth } = useContext(AuthContext);
+    const { setAuth } = useContext(AuthContext);
     const Navigate= useNavigate();
     const userRef = useRef();
     const errRef = useRef();
@@ -32,22 +32,23 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            // const response = await axios.post(LOGIN_URL,
-            //     JSON.stringify({ user, pwd }),
-            //     {
-            //         headers: { 'Content-Type': 'application/json' },
-            //         withCredentials: true
-            //     }
-            // );
-            // console.log(JSON.stringify(response?.data));
-            // console.log(JSON.stringify(response));
-            // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
-            // setAuth({ user, pwd, roles, accessToken });
-            console.log(user,pwd);
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            console.log(JSON.stringify(response));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setAuth({ user, pwd, roles, accessToken });
+            Navigate('/dashboard')
+            // console.log(user,pwd);
             setUser('');
             setPwd('');
-            setSuccess(true);
+            // setSuccess(true);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
