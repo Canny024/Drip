@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
 
+
 // Connect to MongoDB
 connectDB();
 
@@ -51,8 +52,13 @@ app.use('/employees', require('./routes/api/employees'));
 app.use('/users', require('./routes/api/users'));
 
 
-app.get('/',(req,res)=>{
-    res.send('Hello world');
+
+app.use("/addStockPost", require("./routes/auth"));
+app.use("/getAllStockData", require("./routes/auth"));
+app.use("/addBillPost",require("./routes/auth"));
+app.get('/hello',(req,res)=>{
+    console.log("hello")
+    // res.send('Hello world');
 })
 
 
