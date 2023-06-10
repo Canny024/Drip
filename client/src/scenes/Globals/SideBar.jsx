@@ -121,13 +121,21 @@ const SideBar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography>
+            </Typography> */}
+
+            <Item
+              title="Add Stock"
+              to="/addStock"
+              // icon={<HomeOutlinedIcon />}
+              // selected={selected}
+              // setSelected={setSelected}
+            />
             <Item
               title="Manage Team"
               to="/team"

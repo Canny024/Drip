@@ -4,7 +4,8 @@ import { ColorModeContext, useMode } from "./theme";
 import Dashboard from "./scenes/Others/Dashboard";
 import Register from "./Validation/Register";
 import Login from "./Validation/Login";
-
+import AddStockPage from "./pages/AddStockPage";
+import MakeBillPage from "./pages/MakeBillPage"
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -17,6 +18,8 @@ function App() {
             <Route path="/" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/addStock" element={<AddStockPage />} />
+            <Route path="/makeBill" element={<MakeBillPage/>} />
           </Routes>
 
           {/* <Sidebar  /> 
