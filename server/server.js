@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const router = express.Router();
 const app = express();
 const path = require('path');
-const cors = require('cors');
+var cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
@@ -11,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
+const authController = require("./controllers/authController");
 const PORT = process.env.PORT || 3500;
 
 
@@ -39,13 +41,19 @@ app.use(cookieParser());
 
 //serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
-
+app.get('/hello',(req,res)=>{
+    console.log("hello")
+    // res.send('Hello world');
+})
 // routes
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
+app.use(router.post("/addStockPost", authController.addStockFunc));
+app.use(router.get("/getAllStockData", authController.findStockData));
+app.use(router.post("/addBillPost", authController.addBillFunc));
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
@@ -53,13 +61,9 @@ app.use('/users', require('./routes/api/users'));
 
 
 
-app.use("/addStockPost", require("./routes/auth"));
-app.use("/getAllStockData", require("./routes/auth"));
-app.use("/addBillPost",require("./routes/auth"));
-app.get('/hello',(req,res)=>{
-    console.log("hello")
-    // res.send('Hello world');
-})
+
+
+
 
 
 app.all('*', (req, res) => {

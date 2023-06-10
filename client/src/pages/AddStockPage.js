@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const AddStockPage = () => {
@@ -25,6 +25,9 @@ const AddStockPage = () => {
   const [companyDiscount, setCompanyDiscount] = useState("");
   const [customerDiscount, setCustomerDiscount] = useState("");
   const [gst, setGst] = useState("");
+
+  const STOCKPOST_URL = '/addStockPost';
+
 
   const nameChangeHandler = (e) => {
     setName(e.target.value);
@@ -109,10 +112,29 @@ const AddStockPage = () => {
       customerDiscount: customerDiscount,
       gst: gst,
     };
-    const res = await axios.post(
-      "http://localhost:3500/addStockPost",
-      newStockData
-    );
+    console.log(newStockData);
+    try {
+      // Axios ka import dekh KAHAN SE KIYA HAI
+      const response = await axios.post(STOCKPOST_URL,
+          JSON.stringify({ newStockData}),
+          {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: true
+          }
+      );
+      console.log(response);
+
+      //clear state and controlled inputs
+      //need value attrib on inputs for this
+
+  } catch (err) {
+    
+      console.log(err.message);
+  }
+    // const res = await axios.post(
+    //   "http://localhost:3500/addStockPost",
+    //   newStockData
+    // );
   };
   return (
     <div>

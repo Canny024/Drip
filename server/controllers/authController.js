@@ -52,6 +52,9 @@ const handleLogin = async (req, res) => {
     res.sendStatus(401);
   }
 };
+
+
+
 const addStockFunc = async (req, res) => {
   const StockData = new Stock({
     userId: "hello@gmail.com",
@@ -79,6 +82,7 @@ const addStockFunc = async (req, res) => {
   try {
     await StockData.save();
     console.log("data inserted");
+    res.send("Data Inserted")
   } catch (err) {
     console.log(err);
     res.send("userName already exist");
