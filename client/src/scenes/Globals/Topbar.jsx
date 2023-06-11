@@ -9,12 +9,14 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "./logo.png"
 
+import { useNavigate } from "react-router-dom";
+
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
-  
+  const Navigate=useNavigate();
 
   return (
     <Box display="flex" justifyContent="space-between" p={2} bgcolor={colors.primary[400]} >
@@ -42,7 +44,7 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
+        <IconButton onClick={()=>{Navigate("/notificaton")}}>
           <NotificationsOutlinedIcon />
         </IconButton>
         <IconButton >

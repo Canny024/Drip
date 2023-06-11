@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import FolderIcon from '@mui/icons-material/Folder';
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
@@ -12,21 +15,23 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
-
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const Navigate=useNavigate();
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() =>{
+        setSelected(title);
+        Navigate(to)
+      } }
       icon={icon}
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
     </MenuItem>
   );
 };
@@ -53,8 +58,8 @@ const SideBar = () => {
           color: "#868dfb !important",
         },
         "& .ps-active": {
-          color: "#6870fa !important",  
-        }
+          color: "#6870fa !important",
+        },
       }}
     >
       <Sidebar collapsed={isCollapsed}>
@@ -106,7 +111,7 @@ const SideBar = () => {
                   Hello!!
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                 Abhay
+                  Abhay
                 </Typography>
               </Box>
             </Box>
@@ -121,37 +126,38 @@ const SideBar = () => {
               setSelected={setSelected}
             />
 
-            {/* <Typography
+            <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
-            </Typography> */}
+              Quick Access
+            </Typography>
+
+            <Item
+              title="Inventory"
+              to="/inventory"
+              icon={<FolderIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             <Item
               title="Add Stock"
               to="/addStock"
-              // icon={<HomeOutlinedIcon />}
-              // selected={selected}
-              // setSelected={setSelected}
+              icon={<AddBoxIcon />}
+              selected={selected}
+              setSelected={setSelected}
             />
-            <Item
-              title="Inventory"
-              to="/inventory"
-              // icon={<HomeOutlinedIcon />}
-              // selected={selected}
-              // setSelected={setSelected}
-            />
+            
             <Item
               title="Add Bill"
-              to="/addStock"
-              // icon={<HomeOutlinedIcon />}
-              // selected={selected}
-              // setSelected={setSelected}
+              to="/makeBill"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
             />
-            <Item
-            
+            {/* <Item
               title="Manage Team"
               to="/team"
               icon={<PeopleOutlinedIcon />}
@@ -164,29 +170,29 @@ const SideBar = () => {
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
+            /> */}
+            {/* <Item
               title="Invoices Balances"
-              to="/invoices"
+              to="/"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              Options
             </Typography>
-            <Item
+            {/* <Item
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Calendar"
               to="/calendar"
@@ -201,7 +207,6 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
           </Box>
         </Menu>
       </Sidebar>

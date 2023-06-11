@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddStockPage = () => {
   const Navigate = useNavigate();
-  const [userId, setUserId] = useState(localStorage.getItem('userName'));
+  const [userId, setUserId] = useState(localStorage.getItem("userName"));
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [scheme, setScheme] = useState("");
@@ -26,8 +26,7 @@ const AddStockPage = () => {
   const [customerDiscount, setCustomerDiscount] = useState("");
   const [gst, setGst] = useState("");
 
-  const STOCKPOST_URL = '/addStockPost';
-
+  const STOCKPOST_URL = "/addStockPost";
 
   const nameChangeHandler = (e) => {
     setName(e.target.value);
@@ -115,22 +114,21 @@ const AddStockPage = () => {
     // console.log(newStockData);
     try {
       // Axios ka import dekh KAHAN SE KIYA HAI
-      const response = await axios.post(STOCKPOST_URL,
-          JSON.stringify({ newStockData}),
-          {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: true
-          }
+      const response = await axios.post(
+        STOCKPOST_URL,
+        JSON.stringify({ newStockData }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
       );
       // console.log(response);
 
       //clear state and controlled inputs
       //need value attrib on inputs for this
-
-  } catch (err) {
-    
+    } catch (err) {
       console.log(err.message);
-  }
+    }
     // const res = await axios.post(
     //   "http://localhost:3500/addStockPost",
     //   newStockData
@@ -179,7 +177,7 @@ const AddStockPage = () => {
           onChange={medicineTimeChangeHandler}
           value={medicineTime}
         />
-        
+
         <label>companyDiscount</label>
         <input
           type="text"
@@ -210,6 +208,7 @@ const AddStockPage = () => {
         */}
         <button type="submit">Add</button>
       </form>
+      
     </div>
   );
 };

@@ -1,17 +1,22 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 import { Box } from '@mui/material';
 import Topbar from '../scenes/Globals/Topbar';
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthProvider";
+import useAuth from '../hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import "./register.css"
 
 import axios from '../api/axios';
 const LOGIN_URL = '/auth';
 
-const Login = () => {
-    const { setAuth } = useContext(AuthContext);
-    const Navigate= useNavigate();
+const Login = (props) => {
+    const { setAuth } = useAuth;
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -39,16 +44,23 @@ const Login = () => {
                     withCredentials: true
                 }
             );
+            
+            
             console.log(JSON.stringify(response?.data));
-            console.log(JSON.stringify(response));
+            // console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
-            Navigate('/dashboard')
+            console.log(roles[0]);
+            props.setCurrRole(roles[0]);
+            // setAuth({ user, pwd, roles, accessToken });
+            
+            // navigate('/dashboard')
             // console.log(user,pwd);
             localStorage.setItem("userName", user)
             setUser('');
             setPwd('');
+            navigate('/dashboard')
+            // navigate(from, { replace: true });
             // setSuccess(true);
         } catch (err) {
             if (!err?.response) {
@@ -106,7 +118,7 @@ const Login = () => {
                         Need an Account?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a style={{cursor:"pointer"}} onClick={()=>{Navigate("/")}}>Sign Up</a>
+                            <a style={{cursor:"pointer"}} onClick={()=>{navigate("/")}}>Sign Up</a>
                         </span>
                     </p>
                 </section>
