@@ -34,7 +34,7 @@ function App() {
   const [currRole, setCurrRole] = useState(0);
   console.log(currRole);
 
-  if (currRole === 0) {
+  if (currRole === 2001) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
@@ -63,7 +63,7 @@ function App() {
         </ThemeProvider>
       </ColorModeContext.Provider>
     );
-  } else if (currRole == 2001) {
+  } else if (currRole == 0) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
