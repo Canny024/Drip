@@ -24,12 +24,13 @@ const handleLogin = async (req, res) => {
           roles: roles,
         },
       },
-      process.env.ACCESS_TOKEN_SECRET,
+      `898827028aac1abb363945c3ca8b1a032a759c5ba51d1fd435d950cd0d74e6965ec4a9964136e7ee985df18119a7fb58f62f88196f5b5f0f6229c25090e55d50`,
       { expiresIn: "10s" }
     );
     const refreshToken = jwt.sign(
       { username: foundUser.username },
-      process.env.REFRESH_TOKEN_SECRET,
+      `7508b480615f0e99c99e488bd1d4048304adc4e644b1779109663e9179a4a62ec2cc04b949ca9cd7db285234d1aa302480b7c35f5514d4187c45824de150a86f
+      `,
       { expiresIn: "1d" }
     );
     // Saving refreshToken with current user
@@ -55,84 +56,4 @@ const handleLogin = async (req, res) => {
 
 
 
-const addStockFunc = async (req, res) => {
-  const StockData = new Stock({
-    userId: "hello@gmail.com",
-    name: req.body.name,
-    quantity: req.body.quantity,
-    scheme: req.body.scheme,
-    type: req.body.type,
-    pack: req.body.pack,
-    mrp: req.body.mrp,
-    msp: req.body.msp,
-    hsn: req.body.hsn,
-    rate: req.body.rate,
-    msp: req.body.msp,
-    exp: req.body.exp,
-    mfg: req.body.mfg,
-    batchNo: req.body.batchNo,
-    schedule: req.body.schedule,
-    salt: req.body.salt,
-    temperature: req.body.temperature,
-    medicineTime: req.body.medicineTime,
-    companyDiscount: req.body.companyDiscount,
-    customerDiscount: req.body.customerDiscount,
-    gst: req.body.gst,
-  });
-  try {
-    await StockData.save();
-    console.log("data inserted");
-    res.send("Data Inserted")
-  } catch (err) {
-    console.log(err);
-    res.send("userName already exist");
-  }
-};
-
-const findStockData = async (req, res) => {
-  console.log(req.query.userId);
-  const currUserStockData = await Stock.find({
-    userId: req.query.userId,
-  });
-  if (currUserStockData) res.send(currUserStockData);
-  else {
-    res.send("no user found");
-  }
-};
-
-const addBillFunc = async (req, res) => {
-  const BillData = new Bill({
-    userId: req.body.userId,
-    name: req.body.name,
-    type: req.body.type,
-    pack: req.body.pack,
-    quantity: req.body.quantity,
-    mrp: req.body.mrp,
-    finalDiscount: req.body.finalDiscount,
-    gst: req.body.gst,
-    batchNo: req.body.batchNo,
-    exp: req.body.exp,
-    customerName: req.body.customerName,
-    customerNumber: req.body.customerNumber,
-    customerLocation: req.body.customerLocation,
-    saleDate: req.body.saleDate,
-    diseaseType: req.body.diseaseType,
-    loyaltyPoints: req.body.loyaltyPoints,
-    refillReminder: req.body.refillReminder,
-    isPrescribed: req.body.isPrescribed,
-    billPreferance: req.body.billPreferance,
-    doctorName: req.body.doctorName,
-    invoiceNumber: req.body.invoiceNumber,
-    address: req.body.address,
-    doctorDiscount: req.body.doctorDiscount,
-  });
-  try {
-    await BillData.save();
-    console.log("data inserted");
-  } catch (err) {
-    console.log(err);
-    res.send("bill already exist");
-  }
-};
-
-module.exports = { handleLogin, addStockFunc, findStockData, addBillFunc };
+module.exports = { handleLogin};

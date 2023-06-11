@@ -13,6 +13,7 @@ const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const authController = require("./controllers/authController");
+const controllers =require("./controllers/controllers")
 const PORT = process.env.PORT || 3500;
 
 
@@ -41,23 +42,29 @@ app.use(cookieParser());
 
 //serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
-app.get('/hello',(req,res)=>{
-    console.log("hello")
-    // res.send('Hello world');
-})
+
 // routes
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
-app.use(router.post("/addStockPost", authController.addStockFunc));
-app.use(router.get("/getAllStockData", authController.findStockData));
-app.use(router.post("/addBillPost", authController.addBillFunc));
+
+app.use(router.post("/addStockPost", controllers.addStockFunc));
+app.use(router.get("/getAllStockData", controllers.findStockData));
+app.use(router.post("/addBillPost", controllers.addBillFunc));
+app.get(router.get("/lessStockData",controllers.findLessStockData));
+app.get(router.get("/soonExpiryStock",controllers.findSoonExpiryStockData));
+app.get(router.get("/getAllBillData",controllers.findBill));
+
+
+
+
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
 app.use('/users', require('./routes/api/users'));
+
 
 
 

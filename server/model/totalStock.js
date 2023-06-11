@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ReactStockDataSchema = new mongoose.Schema({
+const ReactTotalStockDataSchema = new mongoose.Schema({
   userId: {
     type: String
   },
@@ -82,5 +82,5 @@ const ReactStockDataSchema = new mongoose.Schema({
   },
 });
 
-const stock = mongoose.model("stock", ReactStockDataSchema);
-module.exports = stock;
+const totalStock = mongoose.model("totalStock", ReactTotalStockDataSchema);
+module.exports = totalStock;
