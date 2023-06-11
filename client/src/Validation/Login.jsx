@@ -46,6 +46,7 @@ const Login = () => {
             setAuth({ user, pwd, roles, accessToken });
             Navigate('/dashboard')
             // console.log(user,pwd);
+            localStorage.setItem("userName", user)
             setUser('');
             setPwd('');
             // setSuccess(true);

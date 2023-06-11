@@ -7,7 +7,7 @@ const MakeBillPage = () => {
   const Navigate = useNavigate();
   const today = new Date();
 
-  const [userId, setUserId] = useState(localStorage.getItem("email"));
+  const [userId, setUserId] = useState(localStorage.getItem("userName"));
   const [name, setName] = useState("");
   const [type, setType] = useState();
   const [pack, setPack] = useState("");
@@ -129,8 +129,10 @@ const MakeBillPage = () => {
       doctorDiscount: doctorDiscount
     };
     const res = await axios.post(
-      "http://localhost:3500/addBillPost",
-      newBillData
+      "http://localhost:3500/addBillPost",newBillData,{
+        params:{userId:localStorage.getItem("userName")}
+      }
+      // newBillData
     );
   };
   return (

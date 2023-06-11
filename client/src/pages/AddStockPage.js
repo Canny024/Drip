@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddStockPage = () => {
   const Navigate = useNavigate();
-  const [userId, setUserId] = useState(localStorage.getItem("email"));
+  const [userId, setUserId] = useState(localStorage.getItem('userName'));
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [scheme, setScheme] = useState("");
@@ -112,7 +112,7 @@ const AddStockPage = () => {
       customerDiscount: customerDiscount,
       gst: gst,
     };
-    console.log(newStockData);
+    // console.log(newStockData);
     try {
       // Axios ka import dekh KAHAN SE KIYA HAI
       const response = await axios.post(STOCKPOST_URL,
@@ -122,7 +122,7 @@ const AddStockPage = () => {
               withCredentials: true
           }
       );
-      console.log(response);
+      // console.log(response);
 
       //clear state and controlled inputs
       //need value attrib on inputs for this
