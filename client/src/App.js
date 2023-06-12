@@ -8,18 +8,9 @@ import AddStockPage from "./pages/AddStockPage";
 import MakeBillPage from "./pages/MakeBillPage";
 import InventoryPage from "./pages/InventoryPage";
 import NotificationPage from "./pages/NotificationPage";
-
-import useAuth from "./hooks/useAuth";
-
-import Home from "./components/Home";
-import Layout from "./components/Layout";
-import Editor from "./components/Editor";
-import Admin from "./components/Admin";
-import Missing from "./components/Missing";
+import Topbar from "./scenes/Globals/Topbar";
+import SideBar from "./scenes/Globals/SideBar";
 import Unauthorized from "./components/Unauthorized";
-import Lounge from "./components/Lounge";
-import LinkPage from "./components/LinkPage";
-import RequireAuth from "./components/RequireAuth";
 import { useState } from "react";
 
 const ROLES = {
@@ -30,9 +21,8 @@ const ROLES = {
 
 function App() {
   const [theme, colorMode] = useMode();
-  // const {auth, setAuth } = useAuth;
   const [currRole, setCurrRole] = useState(0);
-  console.log(currRole);
+  // console.log(currRole);
 
   if (currRole === 2001) {
     return (
@@ -40,30 +30,52 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            <Routes>
-              <Route path="/register" element={<Register />} />
+          
+            <SideBar />
+
+            <main className="content">
+              <Topbar setCurrRole={setCurrRole} />
+              <Routes>
+              <Route path="/" element={<Register />} />
               <Route
                 path="/login"
                 element={<Login setCurrRole={setCurrRole} />}
               />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/addStock" element={<AddStockPage />} />
-              <Route path="/makeBill" element={<MakeBillPage />} />
-              <Route path="/inventory" element={<InventoryPage />} />
-              <Route path="/notifications" element={<NotificationPage />} />
-            </Routes>
-
-            {/* <Sidebar  /> 
-           
-            <main className="content">
-              <Topbar  />
-              
-            </main> */}
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/addStock" element={<AddStockPage />} />
+                <Route path="/makeBill" element={<MakeBillPage />} />
+                <Route path="/inventory" element={<InventoryPage />} />
+                <Route path="/notifications" element={<NotificationPage />} />
+                {/* <Route path="/*" element={<Unauthorized />} /> */}
+              </Routes>
+            </main>
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
     );
   } else if (currRole == 0) {
+    return (
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className="app">
+            <Routes>
+              <Route path="/" element={<Register />} />
+              <Route
+                path="/login"
+                element={<Login setCurrRole={setCurrRole} />}
+              />
+               <Route path="/*" element={<Unauthorized />} />
+            </Routes>
+            <Routes>
+            
+            </Routes>
+           
+          </div>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    );
+  } else if (currRole == 1984) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
@@ -81,13 +93,41 @@ function App() {
               <Route path="/inventory" element={<InventoryPage/>} />
               <Route path="/notifications" element={<NotificationPage/>} /> */}
             </Routes>
-
-            {/* <Sidebar  /> 
-           
-            <main className="content">
-              <Topbar  />
-              
-            </main> */}
+          </div>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    );
+  } else if (currRole === 5150) {
+    return (
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className="app">
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/login"
+                element={<Login setCurrRole={setCurrRole} />}
+              />
+              <Route path="/dashboard" element={<Dashboard />} />
+              {/* <Route path="/addStock" element={<AddStockPage />} />
+              <Route path="/makeBill" element={<MakeBillPage/>} />
+              <Route path="/inventory" element={<InventoryPage/>} />
+              <Route path="/notifications" element={<NotificationPage/>} /> */}
+            </Routes>
+          </div>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    );
+  } else {
+    return (
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className="app">
+            <Routes>
+              <Route path="/*" element={<Unauthorized />} />
+            </Routes>
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
