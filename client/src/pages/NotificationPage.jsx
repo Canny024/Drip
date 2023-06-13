@@ -19,7 +19,7 @@ const Notifications = () => {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         setSoonExpiryStock(response.data);
       });
   }, []);

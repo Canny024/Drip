@@ -60,7 +60,7 @@ const Topbar = (props) => {
         </IconButton>
         <IconButton
           onClick={() => {
-            Navigate("/notificaton");
+            Navigate("/notifications");
           }}
         >
           <NotificationsOutlinedIcon />

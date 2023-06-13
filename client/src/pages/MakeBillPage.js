@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 const MakeBillPage = () => {
   const Navigate = useNavigate();
+  const [allMedData,setAllMedData]=useState([]);
+  useEffect(()=>{
+    let res = axios
+      .get("http://localhost:3500/getAllMedData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        setAllMedData(response.data);
+        console.log(allMedData);
+      });
+  },[])
   const today = new Date();
 
   const [userId, setUserId] = useState(localStorage.getItem("userName"));
@@ -35,6 +47,14 @@ const MakeBillPage = () => {
 
   const nameChangeHandler = (e) => {
     setName(e.target.value);
+    for(let i=0;i<allMedData[0].length;i++){
+      if(allMedData[0][i]===e.target.value){
+        setMrp(allMedData[1][i]);
+        setBatchNo(allMedData[2][i]);
+        setExp(allMedData[3][i]);
+        break;
+      }
+    }
   };
   const typeChangeHandler = (e) => {
     setType(e.target.value);
@@ -126,15 +146,18 @@ const MakeBillPage = () => {
       doctorName: doctorName,
       invoiceNumber: invoiceNumber,
       address: address,
-      doctorDiscount: doctorDiscount
+      doctorDiscount: doctorDiscount,
     };
     const res = await axios.post(
-      "http://localhost:3500/addBillPost",newBillData,{
-        params:{userId:localStorage.getItem("userName")}
+      "http://localhost:3500/addBillPost",
+      newBillData,
+      {
+        params: { userId: localStorage.getItem("userName") },
       }
       // newBillData
     );
   };
+
   return (
     <div>
       <form action="" onSubmit={submitHandler}>
@@ -149,7 +172,11 @@ const MakeBillPage = () => {
         <label>mrp</label>
         <input type="text" onChange={mrpChangeHandler} value={mrp} />
         <label>finalDiscount</label>
-        <input type="text" onChange={finalDiscountChangeHandler} value={finalDiscount} />
+        <input
+          type="text"
+          onChange={finalDiscountChangeHandler}
+          value={finalDiscount}
+        />
         <label>gst</label>
         <input type="text" onChange={gstChangeHandler} value={gst} />
         <label>batchNo</label>
@@ -157,17 +184,37 @@ const MakeBillPage = () => {
         <label>exp</label>
         <input type="text" onChange={expChangeHandler} value={exp} />
         <label>customerName</label>
-        <input type="text" onChange={customerNameChangeHandler} value={customerName} />
+        <input
+          type="text"
+          onChange={customerNameChangeHandler}
+          value={customerName}
+        />
         <label>customerNumber</label>
-        <input type="text" onChange={customerNumberChangeHandler} value={customerNumber} />
+        <input
+          type="text"
+          onChange={customerNumberChangeHandler}
+          value={customerNumber}
+        />
         <label>customerLocation</label>
-        <input type="text" onChange={customerLocationChangeHandler} value={customerLocation} />
+        <input
+          type="text"
+          onChange={customerLocationChangeHandler}
+          value={customerLocation}
+        />
         <label>saleDate</label>
         <input type="text" onChange={saleDateChangeHandler} value={saleDate} />
         <label>diseaseType</label>
-        <input type="text" onChange={diseaseTypeChangeHandler} value={diseaseType} />
+        <input
+          type="text"
+          onChange={diseaseTypeChangeHandler}
+          value={diseaseType}
+        />
         <label>loyaltyPoints</label>
-        <input type="text" onChange={loyaltyPointsChangeHandler} value={loyaltyPoints} />
+        <input
+          type="text"
+          onChange={loyaltyPointsChangeHandler}
+          value={loyaltyPoints}
+        />
         <label>refillReminder</label>
         <input
           type="text"
@@ -198,13 +245,9 @@ const MakeBillPage = () => {
           onChange={invoiceNumberChangeHandler}
           value={invoiceNumber}
         />
-         <label>address</label>
-        <input
-          type="text"
-          onChange={addressChangeHandler}
-          value={address}
-        />
-         <label>doctorDiscount</label>
+        <label>address</label>
+        <input type="text" onChange={addressChangeHandler} value={address} />
+        <label>doctorDiscount</label>
         <input
           type="text"
           onChange={doctorDiscountChangeHandler}

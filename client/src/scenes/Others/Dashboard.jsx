@@ -6,6 +6,7 @@ import axios from "../../api/axios";
 export default function Dashboard(props) {
   const [allStockData, setAllStockData] = useState([]);
   const [allBillData, setAllBillData] = useState([]);
+  const [notification,setNotification]=useState(false);
   useEffect(() => {
     let res = axios
       .get("http://localhost:3500/getAllStockData", {
@@ -23,6 +24,30 @@ export default function Dashboard(props) {
         // console.log(response.data);
         setAllBillData(response.data);
       });
+
+
+      let ress = axios
+      .get("http://localhost:3500/lessStockData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        if(response.data.length>0){
+          setNotification(true);
+        }
+      });
+
+      let ressp = axios
+      .get("http://localhost:3500/soonExpiryStock", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        if(response.data.length>0){
+          setNotification(true);
+        }
+      });
+
   }, []);
   let totalValue = 0;
   for (let i = 0; i < allStockData.length; i++) {
@@ -39,6 +64,7 @@ export default function Dashboard(props) {
       <h2>Curr Stock value ₹{totalValue}</h2>
 
       <h2>Total profit till now is ₹{totalProfit}</h2>
+      {notification && <h2>notification activated</h2>}
     </>
   );
 }
