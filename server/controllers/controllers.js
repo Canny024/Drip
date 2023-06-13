@@ -4,7 +4,26 @@ const jwt = require("jsonwebtoken");
 const Stock = require("../model/stock");
 const TotalStock = require("../model/totalStock");
 const Bill = require("../model/bill");
-
+//excel data reading
+let XLSX = require("xlsx");
+let workbook = XLSX.readFile("./medData.xls");
+let workSheet = workbook.Sheets[workbook.SheetNames[0]];
+let nameList = [];
+let purchasePriceList = [];
+let batchList = [];
+let expList = [];
+for (let index = 5; index < 10; index++) {
+  const name = workSheet[`B${index}`].v;
+  const purchasePrice = workSheet[`K${index}`].v;
+  const batch = workSheet[`P${index}`].v;
+  const exp = workSheet[`R${index}`].v;
+    // console.log(name," ",purchasePrice," ", batch, " ", exp);
+  nameList.push(name);
+  purchasePriceList.push(purchasePrice);
+  batchList.push(batch);
+  expList.push(exp);
+}
+//
 const addStockFunc = async (req, res) => {
   //curr stock
   const StockData = new Stock({
@@ -79,12 +98,12 @@ const findStockData = async (req, res) => {
 };
 
 const addBillFunc = async (req, res) => {
-  console.log(req.query.userId)
+  console.log(req.query.userId);
   const currMedBill = await Stock.find({
     userId: req.query.userId,
-    name:req.body.name,
-    exp: req.body.exp
-  }); 
+    name: req.body.name,
+    exp: req.body.exp,
+  });
   console.log(currMedBill);
   if (Number(currMedBill[0].quantity) > Number(req.body.quantity)) {
     const BillData = new Bill({
@@ -115,9 +134,14 @@ const addBillFunc = async (req, res) => {
     try {
       await BillData.save();
       console.log("data inserted");
-      const filter = { userId:  req.query.userId,name:req.body.name, exp:req.body.exp};
-      let finalQuantity=Number(currMedBill[0].quantity)-Number(req.body.quantity)
-      const update = { quantity:  finalQuantity.toString()};
+      const filter = {
+        userId: req.query.userId,
+        name: req.body.name,
+        exp: req.body.exp,
+      };
+      let finalQuantity =
+        Number(currMedBill[0].quantity) - Number(req.body.quantity);
+      const update = { quantity: finalQuantity.toString() };
       let doc = await Stock.findOneAndUpdate(filter, update, {
         new: true,
       });
@@ -144,17 +168,17 @@ const findLessStockData = async (req, res) => {
 
   res.send(lessStockData);
 };
-const expiryBufferTime = 3 * 24 * 3600; //3days
+const expiryBufferTime = 3 * 24 * 60 * 60; //3days
 const findSoonExpiryStockData = async (req, res) => {
   const currUserStockData = await Stock.find({
     userId: req.query.userId,
   });
   let expiryStockData = [];
   for (let i = 0; i < currUserStockData.length; i++) {
-    if (
-      new Date(currUserStockData[i].exp).getHours() - new Date().getHours() <=
-      expiryBufferTime
-    ) {
+    let t =
+      (new Date(currUserStockData[i].exp).getTime() - new Date().getTime()) /
+      1000;
+    if (t <= expiryBufferTime) {
       expiryStockData.push(currUserStockData[i]);
     }
   }
@@ -169,6 +193,10 @@ const findBill = async (req, res) => {
     res.send("no bill data found");
   }
 };
+const findMedData=async(req,res)=>{
+  const medData=[nameList,purchasePriceList,batchList,expList];
+  res.send(medData);
+}
 module.exports = {
   addStockFunc,
   findStockData,
@@ -176,4 +204,5 @@ module.exports = {
   findLessStockData,
   findSoonExpiryStockData,
   findBill,
+  findMedData
 };
