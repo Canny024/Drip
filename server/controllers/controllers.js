@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Stock = require("../model/stock");
 const TotalStock = require("../model/totalStock");
 const Bill = require("../model/bill");
+const ImageM = require("../model/imageModel");
 //excel data reading
 let XLSX = require("xlsx");
 let workbook = XLSX.readFile("./medData.xls");
@@ -17,7 +18,7 @@ for (let index = 5; index < 10; index++) {
   const purchasePrice = workSheet[`K${index}`].v;
   const batch = workSheet[`P${index}`].v;
   const exp = workSheet[`R${index}`].v;
-    // console.log(name," ",purchasePrice," ", batch, " ", exp);
+  // console.log(name," ",purchasePrice," ", batch, " ", exp);
   nameList.push(name);
   purchasePriceList.push(purchasePrice);
   batchList.push(batch);
@@ -193,10 +194,29 @@ const findBill = async (req, res) => {
     res.send("no bill data found");
   }
 };
-const findMedData=async(req,res)=>{
-  const medData=[nameList,purchasePriceList,batchList,expList];
+const findMedData = async (req, res) => {
+  const medData = [nameList, purchasePriceList, batchList, expList];
   res.send(medData);
-}
+};
+const uploadImageFunc = async (req, res) => {
+  // console.log(req.file, req.body);
+  const imageUrl = req.file.path;
+  if (!imageUrl) {
+    return res.send({ code: 400, message: "bad request" });
+  }
+  const newImage = new ImageM({
+    imageUrl: imageUrl,
+    userId: req.query.userId,
+  });
+  let result = await newImage.save();
+  if (result) {
+    console.log("photo uploaded");
+  }
+};
+const imageData = async (req, res) => {
+  const imgData = await ImageM.find({ userId: req.query.userId });
+  res.send(imgData[0].imageUrl);
+};
 module.exports = {
   addStockFunc,
   findStockData,
@@ -204,5 +224,7 @@ module.exports = {
   findLessStockData,
   findSoonExpiryStockData,
   findBill,
-  findMedData
+  findMedData,
+  uploadImageFunc,
+  imageData,
 };

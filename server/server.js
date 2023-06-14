@@ -15,8 +15,11 @@ const connectDB = require("./config/dbConn");
 const authController = require("./controllers/authController");
 const controllers = require("./controllers/controllers");
 const PORT = process.env.PORT || 3500;
-
-
+const multer=require("multer")
+const upload=multer({dest:'uploads/'})
+const bodyParser=require('body-parser')
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 // Connect to MongoDB
 connectDB();
 
@@ -40,7 +43,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 //serve static files
-app.use("/", express.static(path.join(__dirname, "/public")));
+// app.use("/", express.static(path.join(__dirname, "/public")));
+app.use("/uploads",express.static("uploads"))
 
 // routes
 app.use("/", require("./routes/root"));
@@ -56,6 +60,9 @@ app.get(router.get("/lessStockData", controllers.findLessStockData));
 app.get(router.get("/soonExpiryStock", controllers.findSoonExpiryStockData));
 app.get(router.get("/getAllBillData", controllers.findBill));
 app.get(router.get("/getAllMedData", controllers.findMedData));
+app.use(router.post("/uploadImage", upload.single('image'), controllers.uploadImageFunc));
+app.get(router.get("/getImageData", controllers.imageData));
+
 
 
 
