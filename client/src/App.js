@@ -13,6 +13,7 @@ import SideBar from "./scenes/Globals/SideBar";
 import Unauthorized from "./components/Unauthorized";
 import { useEffect, useState ,useMemo} from "react";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import ImageUpload from "./pages/ImageUpload";
 
 const ROLES = {
   Admin: 2001,
@@ -50,6 +51,8 @@ function App() {
                 <Route path="/makeBill" element={<MakeBillPage />} />
                 <Route path="/inventory" element={<InventoryPage />} />
                 <Route path="/notifications" element={<NotificationPage />} />
+                <Route path="/image" element={<ImageUpload />} />
+
                 {/* <Route path="/*" element={<Unauthorized />} /> */}
               </Routes>
             </main>
