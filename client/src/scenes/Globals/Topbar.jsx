@@ -19,8 +19,11 @@ const Topbar = (props) => {
   const Navigate = useNavigate();
 
   const logoutHandler = () => {
-    props.setCurrRole(0);
+    localStorage.removeItem("userName")
+    localStorage.removeItem("currRole")
     Navigate("/");
+    window.location.reload();
+    
   };
 
   return (

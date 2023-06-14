@@ -56,7 +56,8 @@ const Login = (props) => {
             
             // navigate('/dashboard')
             // console.log(user,pwd);
-            localStorage.setItem("userName", user)
+            localStorage.setItem("userName", user);
+            localStorage.setItem("currRole", roles[0]);
             setUser('');
             setPwd('');
             navigate('/dashboard')

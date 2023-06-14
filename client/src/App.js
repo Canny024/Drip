@@ -11,7 +11,8 @@ import NotificationPage from "./pages/NotificationPage";
 import Topbar from "./scenes/Globals/Topbar";
 import SideBar from "./scenes/Globals/SideBar";
 import Unauthorized from "./components/Unauthorized";
-import { useState } from "react";
+import { useEffect, useState ,useMemo} from "react";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 const ROLES = {
   Admin: 2001,
@@ -21,8 +22,11 @@ const ROLES = {
 
 function App() {
   const [theme, colorMode] = useMode();
-  const [currRole, setCurrRole] = useState(0);
-  // console.log(currRole);
+  var role=localStorage.getItem("currRole");
+  console.log(role);
+  if(role===null) role="0";
+  const [currRole, setCurrRole] = useState(Number(role));
+  console.log(currRole);
 
   if (currRole === 2001) {
     return (
@@ -65,6 +69,7 @@ function App() {
                 path="/login"
                 element={<Login setCurrRole={setCurrRole} />}
               />
+              
                <Route path="/*" element={<Unauthorized />} />
             </Routes>
             <Routes>
@@ -119,13 +124,24 @@ function App() {
         </ThemeProvider>
       </ColorModeContext.Provider>
     );
-  } else {
+            
+    } else {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
             <Routes>
+            {/* <Route path="/register" element={<Register />} />
+              <Route
+                path="/login"
+                element={<Login setCurrRole={setCurrRole} />}
+              />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/addStock" element={<AddStockPage />} />
+              <Route path="/makeBill" element={<MakeBillPage/>} />
+              <Route path="/inventory" element={<InventoryPage/>} />
+              <Route path="/notifications" element={<NotificationPage/>} /> */}
               <Route path="/*" element={<Unauthorized />} />
             </Routes>
           </div>
