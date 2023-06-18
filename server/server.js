@@ -62,6 +62,9 @@ app.get(router.get("/getAllBillData", controllers.findBill));
 app.get(router.get("/getAllMedData", controllers.findMedData));
 app.use(router.post("/uploadImage", upload.single('image'), controllers.uploadImageFunc));
 app.get(router.get("/getImageData", controllers.imageData));
+app.get(router.get("/getCreditData", controllers.creditData));
+app.use(router.post("/uploadImportData", upload.single('dataFile'), controllers.uploadDataFileFunc));
+
 
 
 

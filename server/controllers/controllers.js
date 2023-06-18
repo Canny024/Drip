@@ -5,6 +5,7 @@ const Stock = require("../model/stock");
 const TotalStock = require("../model/totalStock");
 const Bill = require("../model/bill");
 const ImageM = require("../model/imageModel");
+const CreditM = require("../model/credit");
 //excel data reading
 let XLSX = require("xlsx");
 let workbook = XLSX.readFile("./medData.xls");
@@ -73,6 +74,14 @@ const addStockFunc = async (req, res) => {
     customerDiscount: req.body.newStockData.customerDiscount,
     gst: req.body.newStockData.gst,
   });
+  const creditAmount =
+    Number(req.body.newStockData.quantity) * Number(req.body.newStockData.mrp);
+  const creditData = new CreditM({
+    userId: req.body.newStockData.userId,
+    distributorName: req.body.newStockData.distributorName,
+    creditAmount: creditAmount,
+    isPaid: false,
+  });
   try {
     //curr stock
     await StockData.save();
@@ -80,6 +89,11 @@ const addStockFunc = async (req, res) => {
     //total stock
     await TotalStockData.save();
     console.log("total stock data inserted");
+    //Add bill for credit loan
+    if (req.body.newStockData.paymentType === "credit") {
+      await creditData.save();
+      console.log("loan data inserted");
+    }
     res.send("Data Inserted");
   } catch (err) {
     console.log(err);
@@ -217,6 +231,31 @@ const imageData = async (req, res) => {
   const imgData = await ImageM.find({ userId: req.query.userId });
   res.send(imgData[0].imageUrl);
 };
+const creditData = async (req, res) => {
+  const creditInfo = await CreditM.find({ userId: req.query.userId });
+  res.send(creditInfo);
+};
+const uploadDataFileFunc = async (req, res) => {
+  try {
+    const path = req.file.path;
+    let workbook = XLSX.readFile(path);
+    let sheet_name_list = workbook.SheetNames;
+    let jsonData = XLSX.utils.sheet_to_json(
+      workbook.Sheets[sheet_name_list[0]]
+    );
+    for(let i=0;i<jsonData.length;i++){
+      jsonData[i].userId=req.query.userId
+    }
+    // console.log(jsonData);//array of objects
+    let savedData = await Stock.create(jsonData);
+    return res.status(201).json({
+      success: true,
+      message: savedData.length + " rows added to the database",
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
 module.exports = {
   addStockFunc,
   findStockData,
@@ -227,4 +266,6 @@ module.exports = {
   findMedData,
   uploadImageFunc,
   imageData,
+  creditData,
+  uploadDataFileFunc,
 };

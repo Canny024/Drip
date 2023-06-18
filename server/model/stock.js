@@ -6,79 +6,79 @@ const ReactStockDataSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required:true
+    // required:true
   },
   quantity: {
     type: String,
-    required:true,
+    // required:true,
   },
   scheme: {
     type: String,
-    required:true
+    // required:true
   },
   type: {
     type: String,
-    required:true
+    // required:true
   },
   pack: {
     type: String,
-    required:true
+    // required:true
   },
   mrp: {
     type: String,
-    required:true
+    // required:true
   },
   msp: {
     type: String,
-    required:true
+    // required:true
   },
   hsn: {
     type: String,
-    required:true
+    // required:true
   },
   rate: {
     type: String,
-    required:true
+    // required:true
   },
   exp: {
     type: String,
-    required:true
+    // required:true
   },
   mfg: {
     type: String,
-    required:true
+    // required:true
   },
   batchNo: {
     type: String,
-    required:true
+    // required:true
   },
   schedule: {
     type: String,
-    required:true
+    // required:true
   },
   salt: {
     type: String,
-    required:true
+    // required:true
   },
   temperature: {
     type: String,
-    required:true
+    // required:true
   },
   medicineTime: {
     type: String,
-    required:true
+    // required:true
   },
   companyDiscount: {
     type: String,
-    required:true
+    // required:true
   },
   customerDiscount: {
     type: String,
-    required:true
+    // required:true
   },
   gst: {
     type: String,
-    required:true
+    // required:true
   },
 });
 
