@@ -14,6 +14,7 @@ import Unauthorized from "./components/Unauthorized";
 import { useEffect, useState ,useMemo} from "react";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import ImageUpload from "./pages/ImageUpload";
+import ImportData from "./pages/ImportData";
 
 const ROLES = {
   Admin: 2001,
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/inventory" element={<InventoryPage />} />
                 <Route path="/notifications" element={<NotificationPage />} />
                 <Route path="/image" element={<ImageUpload />} />
+                <Route path="/importData" element={<ImportData />} />
 
                 {/* <Route path="/*" element={<Unauthorized />} /> */}
               </Routes>

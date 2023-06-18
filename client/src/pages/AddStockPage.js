@@ -25,7 +25,8 @@ const AddStockPage = () => {
   const [companyDiscount, setCompanyDiscount] = useState("");
   const [customerDiscount, setCustomerDiscount] = useState("");
   const [gst, setGst] = useState("");
-
+  const [paymentType, setPaymentType] = useState("paid");
+  const [distributorName, setDistributorName] = useState("");
   const STOCKPOST_URL = "/addStockPost";
 
   const nameChangeHandler = (e) => {
@@ -85,6 +86,12 @@ const AddStockPage = () => {
   const gstChangeHandler = (e) => {
     setGst(e.target.value);
   };
+  const paymentTypeChangeHandler = (e) => {
+    setPaymentType(e.target.value);
+  };
+  const distributorNameChangeHandler = (e) => {
+    setDistributorName(e.target.value);
+  };
   const submitHandler = async (e) => {
     e.preventDefault();
     // Navigate("/login");
@@ -110,6 +117,8 @@ const AddStockPage = () => {
       companyDiscount: companyDiscount,
       customerDiscount: customerDiscount,
       gst: gst,
+      paymentType: paymentType,
+      distributorName: distributorName,
     };
     // console.log(newStockData);
     try {
@@ -192,7 +201,21 @@ const AddStockPage = () => {
         />
         <label>gst</label>
         <input type="text" onChange={gstChangeHandler} value={gst} />
-
+        <label>Payment Type</label>
+        <select
+          name="paymentType"
+          onChange={paymentTypeChangeHandler}
+          value={paymentType}
+        >
+          <option value="paid">Paid</option>
+          <option value="credit">On Credit</option>
+        </select>
+        <label>Distributor Name</label>
+        <input
+          type="text"
+          onChange={distributorNameChangeHandler}
+          value={distributorName}
+        />
         {/*
         <label>Branch</label>
         <select name="branch" onChange={branchChangeHandler} value={branch}>
@@ -208,7 +231,6 @@ const AddStockPage = () => {
         */}
         <button type="submit">Add</button>
       </form>
-      
     </div>
   );
 };
