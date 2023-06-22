@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import InventoryIcon from '@mui/icons-material/Inventory';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import FolderIcon from '@mui/icons-material/Folder';
+import InventoryIcon from "@mui/icons-material/Inventory";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import FolderIcon from "@mui/icons-material/Folder";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -19,31 +20,51 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const Navigate=useNavigate();
+  const Navigate = useNavigate();
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() =>{
+      onClick={() => {
         setSelected(title);
-        Navigate(to)
-      } }
+        Navigate(to);
+      }}
       icon={icon}
     >
       <Typography>{title}</Typography>
     </MenuItem>
   );
 };
-const userName=localStorage.getItem("userName");
-const userRole=localStorage.getItem("userRole");
-
+const userName = localStorage.getItem("userName");
+const userRole = localStorage.getItem("userRole");
 const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
+  //////////////////////////////
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("image", image);
+    await axios.post("http://localhost:3500/uploadImage", formData, {
+      params: { userId: localStorage.getItem("userName") },
+    });
+  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:3500/getImageData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setImageUrl(response.data);
+      });
+  }, []);
+  /////////////
 
   return (
     <Box
@@ -96,13 +117,31 @@ const SideBar = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
+                {/* <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
                   src={`../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
+                /> */}
+                {imageUrl && (
+                  <img
+                    src={`http://localhost:3500/${imageUrl}`}
+                    alt="profile-user"
+                    width="100px"
+                    height="100px"
+                    style={{ cursor: "pointer", borderRadius: "50%" }}
+                  />
+                )}
+                { !imageUrl &&
+                  <input
+                    onChange={(e) => {
+                      setImage(e.target.files[0]);
+                    }}
+                    type="file"
+                  />
+                }
+                {!imageUrl && <button onClick={handleSubmit}>Upload</button>}
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -152,7 +191,7 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+
             <Item
               title="Add Bill"
               to="/makeBill"
@@ -185,7 +224,7 @@ const SideBar = () => {
             <Item
               title="Manage Debt"
               to="/debt"
-              icon={<AttachFileIcon/>}
+              icon={<AttachFileIcon />}
               selected={selected}
               setSelected={setSelected}
             />

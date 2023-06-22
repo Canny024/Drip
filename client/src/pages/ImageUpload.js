@@ -3,7 +3,6 @@ import axios from "../api/axios";
 
 const ImageUpload = () => {
   const [image, setImage] = useState("");
-//   console.log(image);
   const [imageUrl,setImageUrl]=useState("");
   const handleSubmit = async () => {
     const formData = new FormData();
