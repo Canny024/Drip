@@ -64,6 +64,7 @@ app.use(router.post("/uploadImage", upload.single('image'), controllers.uploadIm
 app.get(router.get("/getImageData", controllers.imageData));
 app.get(router.get("/getCreditData", controllers.creditData));
 app.use(router.post("/uploadImportData", upload.single('dataFile'), controllers.uploadDataFileFunc));
+app.get(router.get("/getCurrStock", controllers.findCurrStock));
 
 
 

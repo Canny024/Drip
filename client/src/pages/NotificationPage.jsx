@@ -14,7 +14,7 @@ const Notifications = () => {
         setLessStock(response.data);
       });
 
-      let resp = axios
+    axios
       .get("http://localhost:3500/soonExpiryStock", {
         params: { userId: localStorage.getItem("userName") },
       })

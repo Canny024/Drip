@@ -8,6 +8,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import FolderIcon from '@mui/icons-material/Folder';
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -35,6 +36,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     </MenuItem>
   );
 };
+const userName=localStorage.getItem("userName");
+const userRole=localStorage.getItem("userRole");
 
 const SideBar = () => {
   const theme = useTheme();
@@ -111,7 +114,7 @@ const SideBar = () => {
                   Hello!!
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Abhay
+                  {localStorage.getItem("userName")}
                 </Typography>
               </Box>
             </Box>
@@ -158,20 +161,13 @@ const SideBar = () => {
               setSelected={setSelected}
             />
             {/* <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="Contacts Information"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
-            {/* <Item
+            /> 
+            <Item
               title="Invoices Balances"
               to="/"
               icon={<ReceiptOutlinedIcon />}
@@ -186,13 +182,20 @@ const SideBar = () => {
             >
               Options
             </Typography>
-            {/* <Item
+            <Item
+              title="Manage Debt"
+              to="/debt"
+              icon={<AttachFileIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
             <Item
               title="Calendar"
               to="/calendar"

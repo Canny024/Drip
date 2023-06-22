@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 
 const AddStockPage = () => {
   const Navigate = useNavigate();
@@ -27,7 +28,26 @@ const AddStockPage = () => {
   const [gst, setGst] = useState("");
   const [paymentType, setPaymentType] = useState("paid");
   const [distributorName, setDistributorName] = useState("");
+  const [checkPage, setCheckPage] = useState(false);
   const STOCKPOST_URL = "/addStockPost";
+  const [dataFile, setDataFile] = useState("");
+
+  // Import Data code
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("dataFile", dataFile);
+    await axios.post("http://localhost:3500/uploadImportData", formData, {
+      params: { userId: localStorage.getItem("userName") },
+    }).then((res)=>{
+      console.log(res);
+      if(res.status==200){
+        console.log("Done");
+        Navigate("/inventory");
+      }
+    });
+  };
+
+  // Add manual data Code
 
   const nameChangeHandler = (e) => {
     setName(e.target.value);
@@ -122,7 +142,6 @@ const AddStockPage = () => {
     };
     // console.log(newStockData);
     try {
-      // Axios ka import dekh KAHAN SE KIYA HAI
       const response = await axios.post(
         STOCKPOST_URL,
         JSON.stringify({ newStockData }),
@@ -138,100 +157,122 @@ const AddStockPage = () => {
     } catch (err) {
       console.log(err.message);
     }
-    // const res = await axios.post(
-    //   "http://localhost:3500/addStockPost",
-    //   newStockData
-    // );
   };
-  return (
-    <div>
-      <form action="" onSubmit={submitHandler}>
-        <label>Name</label>
-        <input type="text" onChange={nameChangeHandler} value={name} />
-        <label>quantity</label>
-        <input type="text" onChange={quantityChangeHandler} value={quantity} />
-        <label>scheme</label>
-        <input type="text" onChange={schemeChangeHandler} value={scheme} />
-        <label>type</label>
-        <input type="text" onChange={typeChangeHandler} value={type} />
-        <label>pack</label>
-        <input type="text" onChange={packChangeHandler} value={pack} />
-        <label>mrp</label>
-        <input type="text" onChange={mrpChangeHandler} value={mrp} />
-        <label>msp</label>
-        <input type="text" onChange={mspChangeHandler} value={msp} />
-        <label>hsn</label>
-        <input type="text" onChange={hsnChangeHandler} value={hsn} />
-        <label>rate</label>
-        <input type="text" onChange={rateChangeHandler} value={rate} />
-        <label>exp</label>
-        <input type="text" onChange={expChangeHandler} value={exp} />
-        <label>mfg</label>
-        <input type="text" onChange={mfgChangeHandler} value={mfg} />
-        <label>batchNo</label>
-        <input type="text" onChange={batchNoChangeHandler} value={batchNo} />
-        <label>schedule</label>
-        <input type="text" onChange={scheduleChangeHandler} value={schedule} />
-        <label>salt</label>
-        <input type="text" onChange={saltChangeHandler} value={salt} />
-        <label>temperature</label>
-        <input
-          type="text"
-          onChange={temperatureChangeHandler}
-          value={temperature}
-        />
-        <label>medicineTime</label>
-        <input
-          type="text"
-          onChange={medicineTimeChangeHandler}
-          value={medicineTime}
-        />
 
-        <label>companyDiscount</label>
-        <input
-          type="text"
-          onChange={companyDiscountChangeHandler}
-          value={companyDiscount}
-        />
-        <label>customerDiscount</label>
-        <input
-          type="text"
-          onChange={customerDiscountChangeHandler}
-          value={customerDiscount}
-        />
-        <label>gst</label>
-        <input type="text" onChange={gstChangeHandler} value={gst} />
-        <label>Payment Type</label>
-        <select
-          name="paymentType"
-          onChange={paymentTypeChangeHandler}
-          value={paymentType}
-        >
-          <option value="paid">Paid</option>
-          <option value="credit">On Credit</option>
-        </select>
-        <label>Distributor Name</label>
-        <input
-          type="text"
-          onChange={distributorNameChangeHandler}
-          value={distributorName}
-        />
-        {/*
-        <label>Branch</label>
-        <select name="branch" onChange={branchChangeHandler} value={branch}>
-          <option value="CSE">CSE</option>
-          <option value="ECE">ECE</option>
-          <option value="EEE">EEE</option>
-          <option value="MECHANICAL">MECHANICAL</option>
-          <option value="METALLURGY">METALLURGY</option>
-          <option value="CIVIL">CIVIL</option>
-          <option value="BIOTECH">BIOTECH</option>
-          <option value="OTHER">OTHER</option>
-        </select>
-        */}
-        <button type="submit">Add</button>
-      </form>
-    </div>
+  return (
+    <>
+      <Button color="secondary" style={{fontSize:"30px"}} onClick={()=>setCheckPage(!checkPage)} >{checkPage ? "IMPORT DATA":"ADD DATA MANUALLY"}</Button>
+      <Box display="flex" alignItems="center" justifyContent="center">
+      {checkPage && (
+        
+          <section>
+            <form action="" onSubmit={submitHandler}>
+              <label>Name</label>
+              <input type="text" onChange={nameChangeHandler} value={name} />
+              <label>Quantity</label>
+              <input
+                type="text"
+                onChange={quantityChangeHandler}
+                value={quantity}
+              />
+              <label>Scheme</label>
+              <input
+                type="text"
+                onChange={schemeChangeHandler}
+                value={scheme}
+              />
+              <label>Type</label>
+              <input type="text" onChange={typeChangeHandler} value={type} />
+              <label>Pack</label>
+              <input type="text" onChange={packChangeHandler} value={pack} />
+              <label>MRP</label>
+              <input type="text" onChange={mrpChangeHandler} value={mrp} />
+              <label>MSP</label>
+              <input type="text" onChange={mspChangeHandler} value={msp} />
+              <label>HSN</label>
+              <input type="text" onChange={hsnChangeHandler} value={hsn} />
+              <label>Rate</label>
+              <input type="text" onChange={rateChangeHandler} value={rate} />
+              <label>Exp</label>
+              <input type="text" onChange={expChangeHandler} value={exp} />
+              <label>MFG</label>
+              <input type="text" onChange={mfgChangeHandler} value={mfg} />
+              <label>BatchNo</label>
+              <input
+                type="text"
+                onChange={batchNoChangeHandler}
+                value={batchNo}
+              />
+              <label>Schedule</label>
+              <input
+                type="text"
+                onChange={scheduleChangeHandler}
+                value={schedule}
+              />
+              <label>Salt</label>
+              <input type="text" onChange={saltChangeHandler} value={salt} />
+              <label>Temperature</label>
+              <input
+                type="text"
+                onChange={temperatureChangeHandler}
+                value={temperature}
+              />
+              <label>MedicineTime</label>
+              <input
+                type="text"
+                onChange={medicineTimeChangeHandler}
+                value={medicineTime}
+              />
+
+              <label>CompanyDiscount</label>
+              <input
+                type="text"
+                onChange={companyDiscountChangeHandler}
+                value={companyDiscount}
+              />
+              <label>CustomerDiscount</label>
+              <input
+                type="text"
+                onChange={customerDiscountChangeHandler}
+                value={customerDiscount}
+              />
+              <label>GST</label>
+              <input type="text" onChange={gstChangeHandler} value={gst} />
+              <label>Payment Type</label>
+              <select
+                name="paymentType"
+                onChange={paymentTypeChangeHandler}
+                value={paymentType}
+              >
+                <option value="paid">Paid</option>
+                <option value="credit">On Credit</option>
+              </select>
+              <label>Distributor Name</label>
+              <input
+                type="text"
+                onChange={distributorNameChangeHandler}
+                value={distributorName}
+              />
+              <button type="submit">Add</button>
+            </form>
+          </section>
+        
+      )}
+      {!checkPage && (
+        <div>
+          {
+            <input
+              onChange={(e) => {
+                setDataFile(e.target.files[0]);
+              }}
+              type="file"
+            />
+          }
+          {<button onClick={handleSubmit}>Upload</button>}
+        </div>
+      )}
+      </Box>
+    </>
   );
 };
 

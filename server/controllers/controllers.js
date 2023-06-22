@@ -8,6 +8,7 @@ const ImageM = require("../model/imageModel");
 const CreditM = require("../model/credit");
 //excel data reading
 let XLSX = require("xlsx");
+const { response } = require("express");
 let workbook = XLSX.readFile("./medData.xls");
 let workSheet = workbook.Sheets[workbook.SheetNames[0]];
 let nameList = [];
@@ -243,20 +244,30 @@ const uploadDataFileFunc = async (req, res) => {
     let jsonData = XLSX.utils.sheet_to_json(
       workbook.Sheets[sheet_name_list[0]]
     );
+    console.log(jsonData);
     for(let i=0;i<jsonData.length;i++){
       jsonData[i].userId=req.query.userId
+      jsonData[i].id=i;
+       await Stock.create(jsonData[i]);
     }
-    // console.log(jsonData);//array of objects
-    let savedData = await Stock.create(jsonData);
-    return res.status(201).json({
-      success: true,
-      message: savedData.length + " rows added to the database",
-    });
+    //array of objects
+    // let savedData = await Stock.create(jsonData);
+     res.send(200);
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+
+const findCurrStock= async (req,res)=>{
+  const creditInfo = await Stock.find({ userId: req.query.userId });
+  console.log(creditInfo.length);
+  // for(let i=0;i<creditInfo.length;i++){
+  //   creditInfo[i].id=toString(i);
+  // }
+  res.send(creditInfo);
+}
 module.exports = {
+  findCurrStock,
   addStockFunc,
   findStockData,
   addBillFunc,

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
 
 
 const MakeBillPage = () => {
@@ -159,7 +160,8 @@ const MakeBillPage = () => {
   };
 
   return (
-    <div>
+    <Box display="flex" alignItems="center" justifyContent="center" >
+    <section style={{width:"75%"}}>
       <form action="" onSubmit={submitHandler}>
         <label>Name</label>
         <input type="text" onChange={nameChangeHandler} value={name} />
@@ -253,23 +255,10 @@ const MakeBillPage = () => {
           onChange={doctorDiscountChangeHandler}
           value={doctorDiscount}
         />
-
-        {/*
-        <label>Branch</label>
-        <select name="branch" onChange={branchChangeHandler} value={branch}>
-          <option value="CSE">CSE</option>
-          <option value="ECE">ECE</option>
-          <option value="EEE">EEE</option>
-          <option value="MECHANICAL">MECHANICAL</option>
-          <option value="METALLURGY">METALLURGY</option>
-          <option value="CIVIL">CIVIL</option>
-          <option value="BIOTECH">BIOTECH</option>
-          <option value="OTHER">OTHER</option>
-        </select>
-        */}
         <button type="submit">Make Bill</button>
       </form>
-    </div>
+    </section>
+    </Box>
   );
 };
 

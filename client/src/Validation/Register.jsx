@@ -6,7 +6,6 @@ import axios from '../api/axios';
 import { useNavigate } from "react-router-dom";
 
 import "./register.css"
-import Topbar from "../scenes/Globals/Topbar";
 import { Box } from "@mui/material";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{4,10}$/;
@@ -100,7 +99,7 @@ const Register = () => {
 
     return (
         <main className="content">
-        <Topbar  />
+        {/* <Topbar  /> */}
         <Box display="flex" alignItems="center" justifyContent="center">
             {success ? (
                 <section>

@@ -1,22 +1,19 @@
 import React from "react";
-import Topbar from "../Globals/Topbar";
-import SideBar from "../Globals/SideBar";
 import { useState, useEffect } from "react";
 import axios from "../../api/axios";
-export default function Dashboard(props) {
+export default function Dashboard() {
   const [allStockData, setAllStockData] = useState([]);
   const [allBillData, setAllBillData] = useState([]);
   const [notification,setNotification]=useState(false);
   useEffect(() => {
-    let res = axios
-      .get("http://localhost:3500/getAllStockData", {
+     axios
+      .get("http://localhost:3500/getCurrStock", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
-        // console.log(response.data);
         setAllStockData(response.data);
       });
-    let resp = axios
+      axios
       .get("http://localhost:3500/getAllBillData", {
         params: { userId: localStorage.getItem("userName") },
       })
@@ -26,7 +23,7 @@ export default function Dashboard(props) {
       });
 
 
-      let ress = axios
+      axios
       .get("http://localhost:3500/lessStockData", {
         params: { userId: localStorage.getItem("userName") },
       })
@@ -37,7 +34,7 @@ export default function Dashboard(props) {
         }
       });
 
-      let ressp = axios
+      axios
       .get("http://localhost:3500/soonExpiryStock", {
         params: { userId: localStorage.getItem("userName") },
       })
@@ -49,10 +46,16 @@ export default function Dashboard(props) {
       });
 
   }, []);
-  let totalValue = 0;
+  let totalValue=0
   for (let i = 0; i < allStockData.length; i++) {
-    totalValue +=
-      Number(allStockData[i].quantity) * Number(allStockData[i].mrp);
+    if(allStockData[i].msp===null||allStockData[i].msp===""){
+      totalValue+=0;
+    }
+    else{
+      totalValue +=
+     Number(allStockData[i].msp||0);
+    }
+    
   }
   let totalProfit = 0;
   const profitPerPc = 10;
@@ -64,7 +67,7 @@ export default function Dashboard(props) {
       <h2>Curr Stock value ₹{totalValue}</h2>
 
       <h2>Total profit till now is ₹{totalProfit}</h2>
-      {notification && <h2>notification activated</h2>}
+      {/* {notification && <h2>notification activated</h2>} */}
     </>
   );
 }

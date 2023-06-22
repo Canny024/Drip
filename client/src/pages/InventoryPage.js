@@ -1,51 +1,110 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
+import { Box, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { tokens } from "../theme";
+import Header from "../components/Header";
 const InventoryPage = () => {
-  const [allStockData, setAllStockData] = useState([]);
   const [allMedData, setAllMedData] = useState([]);
-  const [creditData,setCreditData]=useState([]);
   useEffect(() => {
-    let res = axios
-      .get("http://localhost:3500/getAllMedData", {
+    axios
+      .get("http://localhost:3500/getCurrstock", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
+        response.data.forEach((value, index) => {
+          value.id = index;
+        });
         setAllMedData(response.data);
-        // console.log(allMedData);
       });
   }, []);
-  useEffect(() => {
-    let res = axios
-      .get("http://localhost:3500/getAllStockData", {
-        params: { userId: localStorage.getItem("userName") },
-      })
-      .then((response) => {
-        // console.log(response.data);
-        setAllStockData(response.data);
-      });
-  }, []);
-  // console.log(allMedData)
-  useEffect(() => {
-    let res = axios
-      .get("http://localhost:3500/getCreditData", {
-        params: { userId: localStorage.getItem("userName") },
-      })
-      .then((response) => {
-        // console.log(response.data);
-        setCreditData(response.data);
-      });
-  }, []);
-  // console.log(creditData)
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const columns = [
+    { field: "id", headerName: "ID" },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "mrp",
+      headerName: "MRP",
+      type: "Number",
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+    },
+    {
+      field: "msp",
+      headerName: "MSP",
+      type: "Number",
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+    },
+    {
+      field: "exp",
+      headerName: "Expiry Date",
+      flex: 1,
+    },
+    {
+      field: "mfg",
+      headerName: "MFG Date",
+      flex: 1,
+    },
+    {
+      field: "batchNo",
+      headerName: "Batch Number",
+      flex: 1,
+    },
+    {
+      field: "companyDiscount",
+      headerName: "Company Discount",
+      type: "Number",
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+    },
+  ];
+
   return (
     <div>
-      <h1>inventory</h1>
-      <div>
-        {allMedData.length>0 && <h3>name: {allMedData[0][0]}, purchasePrice: {allMedData[1][0]}, batch: {allMedData[2][0]}, exp: {allMedData[3][0]}</h3> }
-      </div>
-      <div>
-        <h1>Credit History</h1>
-        {creditData.map((d)=>{return (<><h3>{d.distributorName}</h3> <h2>Rs.{d.creditAmount}</h2> <h2>isPaid? {d.isPaid===false? 'false':'true'}</h2></>)})}
-      </div>
+      <Box m="20px">
+        <Header title="YOUR INVENTORY" />
+        <Box
+          m="40px 0 0 0"
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+          }}
+        >
+          <DataGrid checkboxSelection rows={allMedData} columns={columns} />
+        </Box>
+      </Box>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const ImageUpload = () => {
       });
   };
   useEffect(()=>{
-    let resp = axios
+  axios
       .get("http://localhost:3500/getImageData", {
         params: { userId: localStorage.getItem("userName") },
       })

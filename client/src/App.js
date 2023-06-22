@@ -12,9 +12,10 @@ import Topbar from "./scenes/Globals/Topbar";
 import SideBar from "./scenes/Globals/SideBar";
 import Unauthorized from "./components/Unauthorized";
 import { useEffect, useState ,useMemo} from "react";
-import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import ImageUpload from "./pages/ImageUpload";
 import ImportData from "./pages/ImportData";
+import Team from "./pages/Team";
+import Debt from "./pages/Debt";
 
 const ROLES = {
   Admin: 2001,
@@ -25,12 +26,11 @@ const ROLES = {
 function App() {
   const [theme, colorMode] = useMode();
   var role=localStorage.getItem("currRole");
-  console.log(role);
   if(role===null) role="0";
   const [currRole, setCurrRole] = useState(Number(role));
   console.log(currRole);
 
-  if (currRole === 2001) {
+  if (currRole === ROLES.Admin) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
@@ -54,6 +54,8 @@ function App() {
                 <Route path="/notifications" element={<NotificationPage />} />
                 <Route path="/image" element={<ImageUpload />} />
                 <Route path="/importData" element={<ImportData />} />
+                <Route path="/team" element={<Team />}  />
+                <Route path="/debt" element={<Debt />}  />
 
                 {/* <Route path="/*" element={<Unauthorized />} /> */}
               </Routes>
@@ -85,7 +87,7 @@ function App() {
         </ThemeProvider>
       </ColorModeContext.Provider>
     );
-  } else if (currRole == 1984) {
+  } else if (currRole == ROLES.Moderator) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
@@ -107,7 +109,7 @@ function App() {
         </ThemeProvider>
       </ColorModeContext.Provider>
     );
-  } else if (currRole === 5150) {
+  } else if (currRole === ROLES.Operator) {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
