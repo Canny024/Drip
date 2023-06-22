@@ -230,7 +230,8 @@ const uploadImageFunc = async (req, res) => {
 };
 const imageData = async (req, res) => {
   const imgData = await ImageM.find({ userId: req.query.userId });
-  res.send(imgData[0].imageUrl);
+  if(imgData[0])
+    res.send(imgData[0].imageUrl);
 };
 const creditData = async (req, res) => {
   const creditInfo = await CreditM.find({ userId: req.query.userId });
