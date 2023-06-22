@@ -165,91 +165,91 @@ const MakeBillPage = () => {
       <form action="" onSubmit={submitHandler}>
         <label>Name</label>
         <input type="text" onChange={nameChangeHandler} value={name} />
-        <label>type</label>
+        <label>Type</label>
         <input type="text" onChange={typeChangeHandler} value={type} />
-        <label>pack</label>
+        <label>Pack</label>
         <input type="text" onChange={packChangeHandler} value={pack} />
-        <label>quantity</label>
+        <label>Quantity</label>
         <input type="text" onChange={quantityChangeHandler} value={quantity} />
-        <label>mrp</label>
+        <label>Mrp</label>
         <input type="text" onChange={mrpChangeHandler} value={mrp} />
-        <label>finalDiscount</label>
+        <label>FinalDiscount</label>
         <input
           type="text"
           onChange={finalDiscountChangeHandler}
           value={finalDiscount}
         />
-        <label>gst</label>
+        <label>GST</label>
         <input type="text" onChange={gstChangeHandler} value={gst} />
-        <label>batchNo</label>
+        <label>BatchNo</label>
         <input type="text" onChange={batchNoChangeHandler} value={batchNo} />
-        <label>exp</label>
+        <label>Exp</label>
         <input type="text" onChange={expChangeHandler} value={exp} />
-        <label>customerName</label>
+        <label>CustomerName</label>
         <input
           type="text"
           onChange={customerNameChangeHandler}
           value={customerName}
         />
-        <label>customerNumber</label>
+        <label>CustomerNumber</label>
         <input
           type="text"
           onChange={customerNumberChangeHandler}
           value={customerNumber}
         />
-        <label>customerLocation</label>
+        <label>CustomerLocation</label>
         <input
           type="text"
           onChange={customerLocationChangeHandler}
           value={customerLocation}
         />
-        <label>saleDate</label>
+        <label>SaleDate</label>
         <input type="text" onChange={saleDateChangeHandler} value={saleDate} />
-        <label>diseaseType</label>
+        <label>DiseaseType</label>
         <input
           type="text"
           onChange={diseaseTypeChangeHandler}
           value={diseaseType}
         />
-        <label>loyaltyPoints</label>
+        <label>LoyaltyPoints</label>
         <input
           type="text"
           onChange={loyaltyPointsChangeHandler}
           value={loyaltyPoints}
         />
-        <label>refillReminder</label>
+        <label>RefillReminder</label>
         <input
           type="text"
           onChange={refillReminderChangeHandler}
           value={refillReminder}
         />
-        <label>isPrescribed</label>
+        <label>IsPrescribed</label>
         <input
           type="text"
           onChange={isPrescribedChangeHandler}
           value={isPrescribed}
         />
-        <label>billPreferance</label>
+        <label>BillPreferance</label>
         <input
           type="text"
           onChange={billPreferanceChangeHandler}
           value={billPreferance}
         />
-        <label>doctorName</label>
+        <label>DoctorName</label>
         <input
           type="text"
           onChange={doctorNameChangeHandler}
           value={doctorName}
         />
-        <label>invoiceNumber</label>
+        <label>InvoiceNumber</label>
         <input
           type="text"
           onChange={invoiceNumberChangeHandler}
           value={invoiceNumber}
         />
-        <label>address</label>
+        <label>Address</label>
         <input type="text" onChange={addressChangeHandler} value={address} />
-        <label>doctorDiscount</label>
+        <label>DoctorDiscount</label>
         <input
           type="text"
           onChange={doctorDiscountChangeHandler}
