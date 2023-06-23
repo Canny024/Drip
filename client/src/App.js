@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Dashboard from "./scenes/Others/Dashboard";
 import Register from "./Validation/Register";
@@ -42,10 +42,10 @@ function App() {
             <main className="content">
               <Topbar setCurrRole={setCurrRole} />
               <Routes>
-              <Route path="/" element={<Register />} />
+              <Route path="/" element={<Typography variant="h1">First Logout To Go Back!!!!!</Typography>} />
               <Route
                 path="/login"
-                element={<Login setCurrRole={setCurrRole} />}
+                element={<Typography variant="h1">First Logout To Go Back!!!!!</Typography>}
               />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/addStock" element={<AddStockPage />} />
@@ -57,7 +57,7 @@ function App() {
                 <Route path="/team" element={<Team />}  />
                 <Route path="/debt" element={<Debt />}  />
 
-                {/* <Route path="/*" element={<Unauthorized />} /> */}
+                <Route path="/*" element={<Unauthorized />} />
               </Routes>
             </main>
           </div>

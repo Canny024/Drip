@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputBase,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import {  useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import InventoryIcon from "@mui/icons-material/Inventory";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import FolderIcon from "@mui/icons-material/Folder";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -37,13 +42,12 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     </MenuItem>
   );
 };
-const userName = localStorage.getItem("userName");
-const userRole = localStorage.getItem("userRole");
 const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
+  const Navigate = useNavigate();
   //////////////////////////////
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -60,11 +64,17 @@ const SideBar = () => {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
-        console.log(response.data);
         setImageUrl(response.data);
       });
   }, []);
   /////////////
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("currRole");
+    Navigate("/");
+    window.location.reload();
+  };
 
   return (
     <Box
@@ -83,6 +93,9 @@ const SideBar = () => {
         },
         "& .ps-active": {
           color: "#6870fa !important",
+        },
+        "& .css-1wvake5": {
+          border : "black !important",
         },
       }}
     >
@@ -117,13 +130,6 @@ const SideBar = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                {/* <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                /> */}
                 {imageUrl && (
                   <img
                     src={`http://localhost:3500/${imageUrl}`}
@@ -133,15 +139,24 @@ const SideBar = () => {
                     style={{ cursor: "pointer", borderRadius: "50%" }}
                   />
                 )}
-                { !imageUrl &&
-                  <input
-                    onChange={(e) => {
-                      setImage(e.target.files[0]);
-                    }}
-                    type="file"
-                  />
-                }
-                {!imageUrl && <button onClick={handleSubmit}>Upload</button>}
+                {!imageUrl && (
+                  <Box alignItems={"center"} justifyContent={"center"}>
+                    <InputBase
+                      style={{ paddingLeft: "30px" }}
+                      onChange={(e) => {
+                        setImage(e.target.files[0]);
+                      }}
+                      type="file"
+                    ></InputBase>
+                    <Button
+                      style={{ paddingLeft: "70px" }}
+                      color="secondary"
+                      onClick={handleSubmit}
+                    >
+                      Upload Image
+                    </Button>
+                  </Box>
+                )}
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -248,6 +263,20 @@ const SideBar = () => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Logout
+            </Typography>
+            <Item
+              title="LogOut"
+              icon={<PowerSettingsNewIcon  onClick={logoutHandler} />}
+              selected={selected}
+              setSelected={setSelected}
+              onClick={logoutHandler}
             />
           </Box>
         </Menu>
