@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./register.css"
 import { Box } from "@mui/material";
-
+import logoImg from "../data/news.png"
 const USER_REGEX = /^[A-z][A-z0-9-_]{4,10}$/;
 const PWD_REGEX = /^[0-9]{5,5}$/;
 const MOBI_REGEX = /^[0-9]{10}$/;
@@ -100,7 +100,8 @@ const Register = () => {
     return (
         <main className="content">
         {/* <Topbar  /> */}
-        <Box display="flex" alignItems="center" justifyContent="center">
+        <Box display="flex" alignItems="center" justifyContent="center" style={{backgroundColor:"#0d0d0d", border:"10 px solid black",borderRadius:"20px",marginTop:"50px",flexWrap:"wrap"}}>
+            <img src={logoImg} alt="image" style={{height:"360px",marginRight:"50px",borderRadius:"20px"}}/>
             {success ? (
                 <section>
                     <h1>Success!</h1>
@@ -111,7 +112,9 @@ const Register = () => {
             ) : (
                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
+                    {/* <h1>Register</h1> */}
+                    <h1>Velour AI Inc.</h1>
+                    <h3 style={{color:"gray"}}>please log in or sign up for an account</h3>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">
                             Username:

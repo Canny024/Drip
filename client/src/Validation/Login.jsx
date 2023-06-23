@@ -7,6 +7,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./register.css";
 
 import axios from "../api/axios";
+import logoImg from "../data/news.png"
+
 const LOGIN_URL = "/auth";
 
 const Login = (props) => {
@@ -79,7 +81,24 @@ const Login = (props) => {
   return (
     <main className="content">
       {/* <Topbar  /> */}
-      <Box display="flex" alignItems="center" justifyContent="center">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          backgroundColor: "#0d0d0d",
+          border: "10 px solid black",
+          borderRadius: "20px",
+          marginTop: "50px",
+          flexWrap:"wrap"
+        }}
+      >
+        <img
+          src={logoImg}
+          alt="image"
+          style={{ height: "300px", marginRight: "50px", borderRadius: "20px" }}
+        />
+
         <section>
           <p
             ref={errRef}
