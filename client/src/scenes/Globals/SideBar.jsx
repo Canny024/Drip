@@ -58,15 +58,15 @@ const SideBar = () => {
       params: { userId: localStorage.getItem("userName") },
     });
   };
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3500/getImageData", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       setImageUrl(response.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3500/getImageData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        setImageUrl(response.data);
+      });
+  }, []);
   /////////////
 
   const logoutHandler = () => {
