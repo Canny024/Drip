@@ -4,7 +4,8 @@ import axios from "../../api/axios";
 import { Box, Typography, grid2Classes, useTheme } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import logo from "../Globals/logo.png";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme"
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import IndexBox from "../../components/IndexBox";
 import StatBox from "../../components/StatBox";
 export default function Dashboard() {
@@ -85,7 +86,7 @@ export default function Dashboard() {
       <Box
         display="grid"
         gridTemplateColumns=" 1.9fr 1fr"
-        gridTemplateRows="auto auto auto"
+        gridTemplateRows="auto auto auto auto"
         gap="20px  20px"
       >
         <Box gridArea="1 / 1 / 2 / 2" >
@@ -98,9 +99,9 @@ export default function Dashboard() {
             Index
           </Typography>
           <Box display={"flex"} gap={5}>
-            <IndexBox />
-            <IndexBox />
-            <IndexBox />
+            <IndexBox title="Sale" subtitle={`₹${totalValue}`} />
+            <IndexBox title="Profit" subtitle={`₹${totalProfit}`} />
+            <IndexBox title="Margin" />
           </Box>
         </Box>
 
@@ -121,7 +122,7 @@ export default function Dashboard() {
             <StatBox />
           </Box>
         </Box>
-        <Box gridArea="3 / 1 / 4 / 2">
+        <Box gridArea="3 / 1 / 5 / 2">
           {" "}
           <Typography
             variant="h4"
@@ -144,7 +145,24 @@ export default function Dashboard() {
         <Box gridArea="1 / 2 / 4 / 3">
           {/* <img src={logo} width="100%" height="100%"></img> */}
         </Box>
-        <Box bgcolor={green}></Box>
+        <Box gridArea="4 / 2 / 5 / 3">
+          <Box display={"flex"} color={"white"} gap={6} width="100%">
+          <Box alignItems={"center"}>
+            <Typography fontSize="5vh" textAlign={"center"}>23</Typography>
+            <Typography textAlign={"center"}>Order</Typography>
+          </Box>
+          <Box alignItems={"center"}>
+            <Typography fontSize="5vh" textAlign={"center"}>4546.56</Typography>
+            <Typography textAlign={"center"} >INR</Typography>
+          </Box>
+          <Box alignItems={"center"}>
+            <Typography fontSize="5vh" textAlign={"center"}>5</Typography>
+            <Typography textAlign={"center"}>Product</Typography>
+          </Box>
+          </Box>
+          
+        </Box>
+        
       </Box>
     </Box>
   );

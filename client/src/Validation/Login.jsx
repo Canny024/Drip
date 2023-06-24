@@ -107,6 +107,7 @@ const Login = (props) => {
           >
             {errMsg}
           </p>
+          <h1>Velour AI Inc.</h1>
           <h1>LogIn</h1>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username:</label>
