@@ -15,46 +15,46 @@ export default function Dashboard() {
   const [stockselected, setStockSelected] = useState("pharma");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // useEffect(() => {
-  //    axios
-  //     .get("http://localhost:3500/getCurrStock", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       setAllStockData(response.data);
-  //     });
-  //     axios
-  //     .get("http://localhost:3500/getAllBillData", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       // console.log(response.data);
-  //       setAllBillData(response.data);
-  //     });
+  useEffect(() => {
+     axios
+      .get("http://localhost:3500/getCurrStock", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        setAllStockData(response.data);
+      });
+      axios
+      .get("http://localhost:3500/getAllBillData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        setAllBillData(response.data);
+      });
 
-  //     axios
-  //     .get("http://localhost:3500/lessStockData", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       // console.log(response.data);
-  //       if(response.data.length>0){
-  //         setNotification(true);
-  //       }
-  //     });
+      axios
+      .get("http://localhost:3500/lessStockData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        if(response.data.length>0){
+          setNotification(true);
+        }
+      });
 
-  //     axios
-  //     .get("http://localhost:3500/soonExpiryStock", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       // console.log(response.data);
-  //       if(response.data.length>0){
-  //         setNotification(true);
-  //       }
-  //     });
+      axios
+      .get("http://localhost:3500/soonExpiryStock", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        if(response.data.length>0){
+          setNotification(true);
+        }
+      });
 
-  // }, []);
+  }, []);
   let totalValue = 0;
   for (let i = 0; i < allStockData.length; i++) {
     if (allStockData[i].msp === null || allStockData[i].msp === "") {

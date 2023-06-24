@@ -58,15 +58,15 @@ const SideBar = () => {
       params: { userId: localStorage.getItem("userName") },
     });
   };
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3500/getImageData", {
-  //       params: { userId: localStorage.getItem("userName") },
-  //     })
-  //     .then((response) => {
-  //       setImageUrl(response.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3500/getImageData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        setImageUrl(response.data);
+      });
+  }, []);
   /////////////
 
   const logoutHandler = () => {
@@ -183,13 +183,13 @@ const SideBar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Quick Access
-            </Typography>
+            </Typography> */}
 
             <Item
               title="Inventory"
@@ -229,13 +229,13 @@ const SideBar = () => {
               setSelected={setSelected}
             /> */}
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Options
-            </Typography>
+            </Typography> */}
             <Item
               title="Manage Debt"
               to="/debt"
@@ -267,9 +267,9 @@ const SideBar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 120px 20px" }}
             >
-              Logout
+              
             </Typography>
             <Item
               title="LogOut"
