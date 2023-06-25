@@ -37,7 +37,7 @@ const AddStockPage = () => {
     const formData = new FormData();
     formData.append("dataFile", dataFile);
     await axios.post("http://localhost:3500/uploadImportData", formData, {
-      params: { userId: localStorage.getItem("userName") },
+      params: { userid: localStorage.getItem("userName") },
     }).then((res)=>{
       console.log(res);
       if(res.status==200){

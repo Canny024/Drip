@@ -30,8 +30,8 @@ const Notifications = () => {
         return (
           <div >
             <h2>
-              {stock.name}
-              {" " + stock.quantity}
+              {stock.productname}
+              {" ->" + stock.currentstock}
             </h2>
           </div>
         );
@@ -41,8 +41,8 @@ const Notifications = () => {
         return (
           <>
             <h2>
-              {stock.name}
-              {"  " +"  expiry on   "+ stock.exp}
+              {stock.productname}
+              {"  " +"  expiry on  ---> "+ stock.exp}
             </h2>
           </>
         );
