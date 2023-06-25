@@ -6,6 +6,7 @@ const TotalStock = require("../model/totalStock");
 const Bill = require("../model/bill");
 const ImageM = require("../model/imageModel");
 const CreditM = require("../model/credit");
+const CurrStockM=require("../model/currStock");
 //excel data reading
 let XLSX = require("xlsx");
 const { response } = require("express");
@@ -170,24 +171,28 @@ const addBillFunc = async (req, res) => {
     res.send("not enough quantity");
   }
 };
+
+
 const lessQuantity = 100;
 const findLessStockData = async (req, res) => {
-  const currUserStockData = await Stock.find({
-    userId: req.query.userId,
+  const currUserStockData = await CurrStockM.find({
+    userid: req.query.userId,
   });
   let lessStockData = [];
   for (let i = 0; i < currUserStockData.length; i++) {
-    if (Number(currUserStockData[i].quantity) <= lessQuantity) {
+    if (Number(currUserStockData[i].currentstock) <= lessQuantity) {
       lessStockData.push(currUserStockData[i]);
     }
   }
 
   res.send(lessStockData);
 };
+
+
 const expiryBufferTime = 3 * 24 * 60 * 60; //3days
 const findSoonExpiryStockData = async (req, res) => {
-  const currUserStockData = await Stock.find({
-    userId: req.query.userId,
+  const currUserStockData = await CurrStockM.find({
+    userid: req.query.userId,
   });
   let expiryStockData = [];
   for (let i = 0; i < currUserStockData.length; i++) {
@@ -200,6 +205,8 @@ const findSoonExpiryStockData = async (req, res) => {
   }
   res.send(expiryStockData);
 };
+
+
 const findBill = async (req, res) => {
   const currUserBillData = await Bill.find({
     userId: req.query.userId,
@@ -245,11 +252,48 @@ const uploadDataFileFunc = async (req, res) => {
     let jsonData = XLSX.utils.sheet_to_json(
       workbook.Sheets[sheet_name_list[0]]
     );
-    console.log(jsonData);
     for(let i=0;i<jsonData.length;i++){
-      jsonData[i].userId=req.query.userId
+      jsonData[i].userId=req.query.userid
       jsonData[i].id=i;
-       await Stock.create(jsonData[i]);
+      jsonData[i]['productname'] = jsonData[i]['Product Name'];
+      delete jsonData[i]['Product Name'];
+      jsonData[i]['unit'] = jsonData[i]['Unit'];
+      delete jsonData[i]['Unit'];
+      jsonData[i]['currentstock'] = jsonData[i]['Current Stock'];
+      delete jsonData[i]['Current Stock'];
+      jsonData[i]['costprice'] = jsonData[i]['Cost Price'];
+      delete jsonData[i]['Cost Price'];
+      jsonData[i]['mrp'] = jsonData[i]['M.R.P.'];
+      delete jsonData[i]['M.R.P.'];
+      jsonData[i]['purchaseprice'] = jsonData[i]['Purchase Price'];
+      delete jsonData[i]['Purchase Price'];
+      jsonData[i]['salesprice'] = jsonData[i]['Sales Price'];
+      delete jsonData[i]['Sales Price'];
+      jsonData[i]['company'] = jsonData[i]['Company'];
+      delete jsonData[i]['Company'];
+      jsonData[i]['manufacturer'] = jsonData[i]['Manufacturer'];
+      delete jsonData[i]['Manufacturer'];
+      jsonData[i]['recdate'] = jsonData[i]['Rec.Date'];
+      delete jsonData[i]['Rec.Date'];
+      jsonData[i]['batch'] = jsonData[i]['Batch'];
+      delete jsonData[i]['Batch'];
+      jsonData[i]['mfg'] = jsonData[i]['MFG'];
+      delete jsonData[i]['MFG'];
+      jsonData[i]['exp'] = jsonData[i]['EXP'];
+      delete jsonData[i]['EXP'];
+      jsonData[i]['supplier'] = jsonData[i]['Supplier'];
+      delete jsonData[i]['Supplier'];
+      jsonData[i]['invno'] = jsonData[i]['Inv.No'];
+      delete jsonData[i]['Inv.No'];
+      jsonData[i]['invdate'] = jsonData[i]['Inv.Date'];
+      delete jsonData[i]['Inv.Date'];
+      jsonData[i]['userid'] = jsonData[i]['userId'];
+      delete jsonData[i]['userId'];
+      
+      // if(i==1)
+        // console.log(jsonData[i]);
+       let res=await CurrStockM.create(jsonData[i]);
+      //  if(res)console.log("data uploaded")
     }
     //array of objects
     // let savedData = await Stock.create(jsonData);
