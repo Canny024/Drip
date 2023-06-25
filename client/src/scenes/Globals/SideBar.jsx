@@ -267,7 +267,7 @@ const SideBar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 120px 20px" }}
+              sx={{ m: "15px 0 190px 20px" }}
             >
               
             </Typography>

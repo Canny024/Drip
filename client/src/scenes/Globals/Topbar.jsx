@@ -10,12 +10,18 @@ import {
 import { useContext, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import ToggleOffOutlinedIcon from "@mui/icons-material/ToggleOffOutlined";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
+import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import logo from "./logo.png";
 import avatar from "./avatar.png";
 
@@ -26,6 +32,8 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+
+  const [showProfile, setShowProfile] = useState(false);
 
   const Navigate = useNavigate();
 
@@ -38,6 +46,92 @@ const Topbar = () => {
 
   return (
     <>
+      {showProfile && (
+        <Box
+          width="250px"
+          height="420px"
+          position={"absolute"}
+          zIndex={12}
+          left="78%"
+          top="1%"
+          borderRadius="20px"
+          bgcolor="#3e3e3e"
+        >
+          <Box
+            height="20%"
+            display={"flex"}
+            bgcolor="#212121"
+            px={3}
+            py={1}
+            borderRadius="20px 20px 0 0"
+          >
+            <Box width="30%" p={0} sx={{cursor:"pointer"}}>
+              <img
+                style={{ width: "100%", height: "60px" }}
+                src={avatar}
+                alt="avatar"
+                
+                onClick={()=>{setShowProfile(false)}}
+              />
+            </Box>
+
+            <Box
+              width="55%"
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Typography variant="h5">abhay@drip</Typography>
+            </Box>
+          </Box>
+          <Box height="80%">
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <AccountBalanceOutlinedIcon color="white" />
+              <Typography variant="h6">Bank</Typography>
+            </Box>
+            <Box
+              width="100%"
+              height="2.5px"
+              bgcolor={colors.primary[100]}
+            ></Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <StoreMallDirectoryOutlinedIcon color="white" />
+              <Typography variant="h6">Store</Typography>
+            </Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <ReceiptLongOutlinedIcon color="white" />
+              <Typography variant="h6">Order</Typography>
+            </Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <BallotOutlinedIcon color="white" />
+              <Typography variant="h6">Ledger</Typography>
+            </Box>
+            <Box
+              width="100%"
+              height="2.5px"
+              bgcolor={colors.primary[100]}
+            ></Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <HelpOutlineOutlinedIcon color="white" />
+              <Typography variant="h6">Help & Support</Typography>
+            </Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+              <SettingsOutlinedIcon color="white" />
+              <Typography variant="h6">Setting</Typography>
+            </Box>
+            <Box
+              width="100%"
+              height="2.5px"
+              bgcolor={colors.primary[100]}
+            ></Box>
+            <Box py={1.5} px={5} display={"flex"} gap={3 } sx={{cursor:"pointer"}}>
+              <LogoutOutlinedIcon color="white" />
+              <Typography variant="h6">Logout</Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
+
       <Box display="flex" alignItems="center">
         <Box
           display="flex"
@@ -51,7 +145,7 @@ const Topbar = () => {
           {/* SEARCH BAR */}
           <Box display="flex" pl={5}>
             <img
-              style={{ width: "120px", height: "70px" }}
+              style={{ width: "110px", height: "65px" }}
               src={logo}
               alt="Logo"
             />
@@ -102,21 +196,26 @@ const Topbar = () => {
             </IconButton>
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Box display="flex" pl={5}>
+            <Box display="flex" sx={{ cursor: "pointer", zIndex: "10" }}>
               <img
-                style={{ width: "70px", height: "70px" }}
+                style={{ width: "60px", height: "60px" }}
                 src={avatar}
                 alt="avatar"
+                onClick={()=>{setShowProfile(true)}}
               />
             </Box>
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <IconButton onClick={colorMode.toggleColorMode}>
-              {theme.palette.mode === "dark" ? (
+            <IconButton
+              onClick={colorMode.toggleColorMode}
+              style={{ width: "2px" }}
+            >
+              {/* {theme.palette.mode === "dark" ? (
                 <DarkModeOutlinedIcon />
               ) : (
                 <LightModeOutlinedIcon />
-              )}
+              )} */}
+              <ToggleOffOutlinedIcon color="white" />
             </IconButton>
           </Box>
         </Box>
@@ -231,7 +330,7 @@ const Topbar = () => {
                 }
                 label="Moderator"
               />
-               <FormControlLabel
+              <FormControlLabel
                 value="operator"
                 control={
                   <Radio
