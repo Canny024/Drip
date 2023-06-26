@@ -173,7 +173,7 @@ const addBillFunc = async (req, res) => {
 };
 
 
-const lessQuantity = 100;
+const lessQuantity = 10;
 const findLessStockData = async (req, res) => {
   const currUserStockData = await CurrStockM.find({
     userid: req.query.userId,

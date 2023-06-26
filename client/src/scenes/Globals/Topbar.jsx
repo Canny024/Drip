@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   FormControlLabel,
   IconButton,
   Radio,
@@ -7,7 +8,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -24,8 +25,10 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import logo from "./logo.png";
 import avatar from "./avatar.png";
+import axios from "../../api/axios";
 
 import { useNavigate } from "react-router-dom";
+import NotificationPopupBox from "../../components/NotificationPopupBox";
 
 const Topbar = () => {
   const [currTab, setCurrtab] = useState("stock");
@@ -34,9 +37,30 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   const [showProfile, setShowProfile] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   const Navigate = useNavigate();
+  const [lessStock, setLessStock] = useState([]);
+  const [soonExpiryStock, setSoonExpiryStock] = useState([]);
+  useEffect(() => {
+    let res = axios
+      .get("http://localhost:3500/lessStockData", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setLessStock(response.data);
+      });
 
+    axios
+      .get("http://localhost:3500/soonExpiryStock", {
+        params: { userId: localStorage.getItem("userName") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setSoonExpiryStock(response.data);
+      });
+  }, []);
   // const logoutHandler = () => {
   //   localStorage.removeItem("userName");
   //   localStorage.removeItem("currRole");
@@ -46,6 +70,85 @@ const Topbar = () => {
 
   return (
     <>
+      {/* Notifiaction PopUp */}
+
+      {showNotification && (
+        <Box
+          width="250px"
+          height="420px"
+          position={"absolute"}
+          zIndex={12}
+          left="49.5%"
+          top="10%"
+          borderRadius="20px"
+          bgcolor="#3e3e3e"
+          border="1px solid #333333"
+        >
+          <Box
+            height="10%"
+            width="100%"
+            display={"flex"}
+            bgcolor="black"
+            alignItems={"center"}
+            justifyContent={"center"}
+            borderRadius="20px 20px 0 0"
+          >
+            <Typography
+              variant="h4"
+              style={{ fontWeight: "600", color: "white" }}
+            >
+              Notifications
+            </Typography>
+          </Box>
+
+          <Box height="80%" width="100%" overflow="scroll">
+            {lessStock.map((item) => {
+              if (item.productname !== "" && item.currentstock !== "") {
+                return (
+                  <NotificationPopupBox
+                    name={item.productname}
+                    type={"LESS STOCK"}
+                    data={item.currentstock}
+                  />
+                );
+              }
+            })}
+            {soonExpiryStock.map((item) => {
+              if (item.productname !== "" && item.exp !== "") {
+                return (
+                  <NotificationPopupBox
+                    name={item.productname}
+                    type={"EXPIRY"}
+                    data={item.exp}
+                  />
+                );
+              }
+            })}
+          </Box>
+          <Box
+            height="10%"
+            width="100%"
+            display={"flex"}
+            bgcolor="black"
+            alignItems={"center"}
+            justifyContent={"center"}
+            borderRadius="0 0 20px 20px"
+          >
+            <Typography
+              variant="h4"
+              style={{ cursor: "pointer", color: "#3da58a" }}
+              onClick={() => {
+                setShowNotification(false);
+                Navigate("/notifications");
+              }}
+            >
+              View All
+            </Typography>
+          </Box>
+        </Box>
+      )}
+
+      {/* Profile PopUp */}
       {showProfile && (
         <Box
           width="250px"
@@ -65,13 +168,14 @@ const Topbar = () => {
             py={1}
             borderRadius="20px 20px 0 0"
           >
-            <Box width="30%" p={0} sx={{cursor:"pointer"}}>
+            <Box width="30%" p={0} sx={{ cursor: "pointer" }}>
               <img
                 style={{ width: "100%", height: "60px" }}
                 src={avatar}
                 alt="avatar"
-                
-                onClick={()=>{setShowProfile(false)}}
+                onClick={() => {
+                  setShowProfile(false);
+                }}
               />
             </Box>
 
@@ -85,7 +189,13 @@ const Topbar = () => {
             </Box>
           </Box>
           <Box height="80%">
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <AccountBalanceOutlinedIcon color="white" />
               <Typography variant="h6">Bank</Typography>
             </Box>
@@ -94,15 +204,33 @@ const Topbar = () => {
               height="2.5px"
               bgcolor={colors.primary[100]}
             ></Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <StoreMallDirectoryOutlinedIcon color="white" />
               <Typography variant="h6">Store</Typography>
             </Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <ReceiptLongOutlinedIcon color="white" />
               <Typography variant="h6">Order</Typography>
             </Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <BallotOutlinedIcon color="white" />
               <Typography variant="h6">Ledger</Typography>
             </Box>
@@ -111,11 +239,23 @@ const Topbar = () => {
               height="2.5px"
               bgcolor={colors.primary[100]}
             ></Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <HelpOutlineOutlinedIcon color="white" />
               <Typography variant="h6">Help & Support</Typography>
             </Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3} sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <SettingsOutlinedIcon color="white" />
               <Typography variant="h6">Setting</Typography>
             </Box>
@@ -124,13 +264,21 @@ const Topbar = () => {
               height="2.5px"
               bgcolor={colors.primary[100]}
             ></Box>
-            <Box py={1.5} px={5} display={"flex"} gap={3 } sx={{cursor:"pointer"}}>
+            <Box
+              py={1.5}
+              px={5}
+              display={"flex"}
+              gap={3}
+              sx={{ cursor: "pointer" }}
+            >
               <LogoutOutlinedIcon color="white" />
               <Typography variant="h6">Logout</Typography>
             </Box>
           </Box>
         </Box>
       )}
+
+      {/* Main TopBar */}
 
       <Box display="flex" alignItems="center">
         <Box
@@ -183,7 +331,7 @@ const Topbar = () => {
           <Box display="flex" gap="1.5vw" justifyContent="space-between">
             <IconButton
               onClick={() => {
-                Navigate("/notifications");
+                setShowNotification(!showNotification);
               }}
             >
               <NotificationsIcon />
@@ -201,7 +349,9 @@ const Topbar = () => {
                 style={{ width: "60px", height: "60px" }}
                 src={avatar}
                 alt="avatar"
-                onClick={()=>{setShowProfile(true)}}
+                onClick={() => {
+                  setShowProfile(true);
+                }}
               />
             </Box>
           </Box>

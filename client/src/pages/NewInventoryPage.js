@@ -2,10 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import InventoryItem from "./InventoryItem";
+import { Box, Typography } from "@mui/material";
 const NewInventoryPage = () => {
   const [allStockData, setAllStockData] = useState([]);
   useEffect(() => {
-    let res = axios
+    axios
       .get("http://localhost:3500/currStockData", {
         params: { userId: localStorage.getItem("userName") },
       })
@@ -17,6 +18,8 @@ const NewInventoryPage = () => {
   console.log(allStockData);
   return (
     <div style={{ display: "flex" }}>
+
+    {/* Filter Box */}
       <div
         style={{
           border: "2px solid gray",
@@ -25,8 +28,14 @@ const NewInventoryPage = () => {
           margin: "20px",
         }}
       >
-        <h3 style={{display:"inline",margin:"0px 170px 0px 10px"}}>Filters</h3>
-        <button style={{color:"white",backgroundColor:"#111112",border:"0px"}}><h3>Clear</h3></button>
+        <h3 style={{ display: "inline", margin: "0px 170px 0px 10px" }}>
+          Filters
+        </h3>
+        <button
+          style={{ color: "white", backgroundColor: "#111112", border: "0px" }}
+        >
+          <h3>Clear</h3>
+        </button>
         <hr />
         <div>
           <ul>
@@ -54,6 +63,8 @@ const NewInventoryPage = () => {
           </ul>
         </div>
       </div>
+
+      {/* Table */}
       <div
         style={{
           border: "2px solid gray",
@@ -66,26 +77,50 @@ const NewInventoryPage = () => {
       >
         <div style={{ border: "2px solid gray", margin: "20px" }}>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <div
-              style={{ width: "33vw", display: "flex", alignItems: "center" }}
+            <Box
+              py={2}
+              style={{
+                width: "40%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              Product Name
-            </div>
-            <div
-              style={{ width: ".25vw", display: "flex", alignItems: "center" }}
+              <Typography variant="h3"> Product Name</Typography>
+            </Box>
+            <Box
+              py={2}
+              style={{
+                width: "10%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              Unit
-            </div>
-            <div
-              style={{ width: ".25vw", display: "flex", alignItems: "center" }}
+              <Typography variant="h3"> Unit</Typography>
+            </Box>
+            <Box
+              py={2}
+              style={{
+                width: "20%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              Current Stock
-            </div>
-            <div
-              style={{ width: ".25vw", display: "flex", alignItems: "center" }}
+              <Typography variant="h3"> Curr Stock</Typography>
+            </Box>
+            <Box
+              py={2}
+              style={{
+                width: "10%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              M.R.P
-            </div>
+              <Typography variant="h3"> M.R.P.</Typography>
+            </Box>
           </div>
         </div>
         {allStockData.length > 0 &&
