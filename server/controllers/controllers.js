@@ -311,6 +311,11 @@ const findCurrStock= async (req,res)=>{
   // }
   res.send(creditInfo);
 }
+const currStockFunc=async(req,res)=>{
+  console.log(req.query.userId)
+  let ress=await CurrStockM.find({userid:req.query.userId});
+  res.send(ress);
+}
 module.exports = {
   findCurrStock,
   addStockFunc,
@@ -324,4 +329,5 @@ module.exports = {
   imageData,
   creditData,
   uploadDataFileFunc,
+  currStockFunc
 };
