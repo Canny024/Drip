@@ -26,6 +26,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const Navigate = useNavigate();
+
+  
   return (
     <MenuItem
       active={selected === title}
@@ -47,6 +49,7 @@ const SideBar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
+  const [addingType,setAddingType]=useState(false);
   const Navigate = useNavigate();
   //////////////////////////////
   const [image, setImage] = useState("");
@@ -201,11 +204,35 @@ const SideBar = () => {
 
             <Item
               title="Add Stock"
-              to="/addStock"
-              icon={<AddBoxIcon />}
+             
+              icon={<AddBoxIcon onClick={()=>{setAddingType(!addingType)}} />}
               selected={selected}
               setSelected={setSelected}
             />
+          {addingType&&
+          <>
+          <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "5px 0 5px 20px", cursor:"pointer" }}
+              onClick={()=>Navigate("/addStock")}
+              
+            >
+              Manual
+            </Typography>
+             <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 25px 20px",cursor:"pointer" }}
+              onClick={()=>Navigate("/importData")}
+            >
+              Import
+            </Typography>
+          </>
+          
+          }
+            
+            
 
             <Item
               title="Add Bill"

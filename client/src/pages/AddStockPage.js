@@ -126,7 +126,6 @@ const AddStockPage = () => {
       msp: msp,
       hsn: hsn,
       rate: rate,
-      msp: msp,
       exp: exp,
       mfg: mfg,
       batchNo: batchNo,
@@ -161,9 +160,8 @@ const AddStockPage = () => {
 
   return (
     <>
-      <Button color="secondary" style={{fontSize:"30px"}} onClick={()=>setCheckPage(!checkPage)} >{checkPage ? "IMPORT DATA":"ADD DATA MANUALLY"}</Button>
       <Box display="flex" alignItems="center" justifyContent="center">
-      {checkPage && (
+      {!checkPage && (
         
           <section>
             <form action="" onSubmit={submitHandler}>
@@ -257,19 +255,6 @@ const AddStockPage = () => {
             </form>
           </section>
         
-      )}
-      {!checkPage && (
-        <div>
-          {
-            <input
-              onChange={(e) => {
-                setDataFile(e.target.files[0]);
-              }}
-              type="file"
-            />
-          }
-          {<button onClick={handleSubmit}>Upload</button>}
-        </div>
       )}
       </Box>
     </>
