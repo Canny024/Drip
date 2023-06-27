@@ -10,6 +10,7 @@ const CurrStockM=require("../model/currStock");
 //excel data reading
 let XLSX = require("xlsx");
 const { response } = require("express");
+const currStock = require("../model/currStock");
 let workbook = XLSX.readFile("./medData.xls");
 let workSheet = workbook.Sheets[workbook.SheetNames[0]];
 let nameList = [];
@@ -115,61 +116,70 @@ const findStockData = async (req, res) => {
 };
 
 const addBillFunc = async (req, res) => {
-  console.log(req.query.userId);
-  const currMedBill = await Stock.find({
-    userId: req.query.userId,
-    name: req.body.name,
-    exp: req.body.exp,
-  });
-  console.log(currMedBill);
-  if (Number(currMedBill[0].quantity) > Number(req.body.quantity)) {
-    const BillData = new Bill({
-      userId: req.body.userId,
-      name: req.body.name,
-      type: req.body.type,
-      pack: req.body.pack,
-      quantity: req.body.quantity,
-      mrp: req.body.mrp,
-      finalDiscount: req.body.finalDiscount,
-      gst: req.body.gst,
-      batchNo: req.body.batchNo,
-      exp: req.body.exp,
-      customerName: req.body.customerName,
-      customerNumber: req.body.customerNumber,
-      customerLocation: req.body.customerLocation,
-      saleDate: req.body.saleDate,
-      diseaseType: req.body.diseaseType,
-      loyaltyPoints: req.body.loyaltyPoints,
-      refillReminder: req.body.refillReminder,
-      isPrescribed: req.body.isPrescribed,
-      billPreferance: req.body.billPreferance,
-      doctorName: req.body.doctorName,
-      invoiceNumber: req.body.invoiceNumber,
-      address: req.body.address,
-      doctorDiscount: req.body.doctorDiscount,
+  const allBillData=req.body;
+
+  for(let i=0;i<allBillData.length;i++){
+    const currBillObj=allBillData[i];
+
+    const currMedBill = await CurrStockM.find({
+      userid: currBillObj.userid,
+      productname: currBillObj.medicinename,
+      exp: currBillObj.exp,
     });
-    try {
-      await BillData.save();
-      console.log("data inserted");
-      const filter = {
-        userId: req.query.userId,
-        name: req.body.name,
-        exp: req.body.exp,
-      };
-      let finalQuantity =
-        Number(currMedBill[0].quantity) - Number(req.body.quantity);
-      const update = { quantity: finalQuantity.toString() };
-      let doc = await Stock.findOneAndUpdate(filter, update, {
-        new: true,
+    // console.log(currMedBill);
+    if (Number(currMedBill[0].quantity) > Number(currBillObj.quantity)) {
+      const BillData = new Bill({
+        userid: currBillObj.userid,
+        customername: currBillObj.customername,
+        phonenumber: currBillObj.phonenumber,
+        medicinename:currBillObj.medicinename,
+        quantity: currBillObj.quantity,
+        price:currBillObj.price,
+        date:currBillObj.date,
+        exp: currBillObj.exp,
+        // type: currBillObj.type,
+        // pack: currBillObj.pack,
+        // mrp: currBillObj.mrp,
+        // finalDiscount: currBillObj.finalDiscount,
+        // gst: currBillObj.gst,
+        // batchNo: currBillObj.batchNo,
+        // customerName: currBillObj.customerName,
+        // customerLocation: currBillObj.customerLocation,
+        // saleDate: currBillObj.saleDate,
+        // diseaseType: currBillObj.diseaseType,
+        // loyaltyPoints: currBillObj.loyaltyPoints,
+        // refillReminder: currBillObj.refillReminder,
+        // isPrescribed: currBillObj.isPrescribed,
+        // billPreferance: currBillObj.billPreferance,
+        // doctorName: currBillObj.doctorName,
+        // invoiceNumber: currBillObj.invoiceNumber,
+        // address: currBillObj.address,
+        // doctorDiscount: currBillObj.doctorDiscount,
       });
-      console.log("stock Updated");
-    } catch (err) {
-      console.log(err);
-      res.send("bill already exist");
+      try {
+        await BillData.save();
+        console.log("data inserted");
+        const filter = {
+          userid: currBillObj.userid,
+          productname: currBillObj.medicinename,
+          exp: currBillObj.exp,
+        };
+        let finalQuantity =
+          Number(currMedBill[0].quantity) - Number(currBillObj.quantity);
+        const update = { quantity: finalQuantity.toString() };
+        let doc = await CurrStockM.findOneAndUpdate(filter, update, {
+          new: true,
+        });
+        console.log("stock Updated");
+      } catch (err) {
+        console.log(err);
+        res.send("bill already exist");
+      }
+    } else {
+      res.send("not enough quantity");
     }
-  } else {
-    res.send("not enough quantity");
   }
+  // console.log(req.query.userId);
 };
 
 
@@ -209,7 +219,7 @@ const findSoonExpiryStockData = async (req, res) => {
 
 const findBill = async (req, res) => {
   const currUserBillData = await Bill.find({
-    userId: req.query.userId,
+    userid: req.query.userId,
   });
   if (currUserBillData) res.send(currUserBillData);
   else {

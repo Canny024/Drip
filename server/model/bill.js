@@ -1,120 +1,125 @@
 const mongoose = require("mongoose");
 
 const ReactBillDataSchema = new mongoose.Schema({
-  userId: {
+  userid: {
     type: String,
-    required:true,
+    // required:true,
     default:"",
   },
-  name: {
+  customername: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
-  type: {
-    default:"",
+  phonenumber: {
     type: String,
-    required:true,
+    default:"",
+    // required:true
   },
-  pack: {
-    default:"",
+  medicinename: {
     type: String,
-    required:true
+    default:"",
+    // required:true
   },
   quantity: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
-  mrp: {
+  price:{
     type: String,
     default:"",
-    required:true
+    // required:true
   },
-  finalDiscount: {
+  date: {
     type: String,
     default:"",
-    required:true
-  },
-  gst: {
-    type: String,
-    default:"",
-    required:true
-  },
-  batchNo: {
-    type: String,
-    default:"",
-    required:true
+    // required:true
   },
   exp: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
-  customerName: {
+  type: {
+    default:"",
+    type: String,
+    // required:true,
+  },
+  pack: {
+    default:"",
+    type: String,
+    // required:true
+  },
+  mrp: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
-  customerNumber: {
+  finalDiscount: {
     type: String,
     default:"",
-    required:true
+    // required:true
+  },
+  gst: {
+    type: String,
+    default:"",
+    // required:true
+  },
+  batchNo: {
+    type: String,
+    default:"",
+    // required:true
   },
   customerLocation: {
     type: String,
     default:"",
-    required:true
-  },
-  saleDate: {
-    type: String,
-    default:"",
-    required:true
+    // required:true
   },
   diseaseType: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   loyaltyPoints: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   refillReminder: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   isPrescribed: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   billPreferance: {
     default:"",
     type: String,
-    required:true
+    // required:true
   },
   doctorName: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   invoiceNumber: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   address: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
   doctorDiscount: {
     type: String,
     default:"",
-    required:true
+    // required:true
   },
 });
 
