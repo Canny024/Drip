@@ -106,20 +106,7 @@ const Topbar = () => {
             </Typography>
           </Box>
 
-          <FormControl fullWidth={true}  required>
-            <InputLabel htmlFor={"title"}>{"Title"}</InputLabel>
-            <Input
-              id={"title"}
-              aria-describedby="my-helper-text"
-              value={title}
-              onChange={(e)=> setTitle(e.target.value)}
-              // error={errorFields["title"].error}
-              // inputRef={titleRef}
-            />
-            {/* <FormHelperText id="my-helper-text">
-              {errorFields["title"].formHelperText}
-            </FormHelperText> */}
-          </FormControl>
+  
 
           <Box height="80%" width="100%" overflow="scroll">
             {lessStock.map((item) => {

@@ -117,6 +117,7 @@ const findStockData = async (req, res) => {
 
 const addBillFunc = async (req, res) => {
   const allBillData=req.body;
+  console.log(allBillData);
 
   for(let i=0;i<allBillData.length;i++){
     const currBillObj=allBillData[i];
@@ -126,8 +127,8 @@ const addBillFunc = async (req, res) => {
       productname: currBillObj.medicinename,
       exp: currBillObj.exp,
     });
-    // console.log(currMedBill);
-    if (Number(currMedBill[0].quantity) > Number(currBillObj.quantity)) {
+    console.log(currMedBill);
+    if (Number(currMedBill[0].currentstock) > Number(currBillObj.quantity)) {
       const BillData = new Bill({
         userid: currBillObj.userid,
         customername: currBillObj.customername,
@@ -165,8 +166,8 @@ const addBillFunc = async (req, res) => {
           exp: currBillObj.exp,
         };
         let finalQuantity =
-          Number(currMedBill[0].quantity) - Number(currBillObj.quantity);
-        const update = { quantity: finalQuantity.toString() };
+          Number(currMedBill[0].currentstock) - Number(currBillObj.quantity);
+        const update = { currentstock: finalQuantity.toString() };
         let doc = await CurrStockM.findOneAndUpdate(filter, update, {
           new: true,
         });

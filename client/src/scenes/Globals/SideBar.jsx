@@ -51,6 +51,9 @@ const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
   const [addingType, setAddingType] = useState(false);
+  const [showBill,setShowBill]=useState(false);
+
+
   const Navigate = useNavigate();
   //////////////////////////////
   const [image, setImage] = useState("");
@@ -83,8 +86,12 @@ const SideBar = () => {
   return (
     <>
 
-
+  {
+    showBill&&
     <BillPopUp />
+  }
+
+   
 
 
       <Box
@@ -243,9 +250,8 @@ const SideBar = () => {
               )}
 
               <Item
-                title="Add Bill"
-                to="/makeBill"
-                icon={<ReceiptOutlinedIcon />}
+                title="Add Bill" 
+                icon={<ReceiptOutlinedIcon onClick={()=>{setShowBill(!showBill)}} />}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -310,7 +316,7 @@ const SideBar = () => {
               <Typography
                 variant="h6"
                 color={colors.grey[300]}
-                sx={{ m: "15px 0 190px 20px" }}
+                sx={{ m: "15px 0 160px 20px" }}
               ></Typography>
               <Item
                 title="LogOut"
