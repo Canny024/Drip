@@ -66,12 +66,12 @@ const Topbar = () => {
         setSoonExpiryStock(response.data);
       });
   }, []);
-  // const logoutHandler = () => {
-  //   localStorage.removeItem("userName");
-  //   localStorage.removeItem("currRole");
-  //   Navigate("/");
-  //   window.location.reload();
-  // };
+  const logoutHandler = () => {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("currRole");
+    Navigate("/");
+    window.location.reload();
+  };
 
   return (
     <>
@@ -192,7 +192,7 @@ const Topbar = () => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Typography variant="h5">abhay@drip</Typography>
+              <Typography variant="h5">{localStorage.getItem("userName")}</Typography>
             </Box>
           </Box>
           <Box height="80%">
@@ -279,7 +279,7 @@ const Topbar = () => {
               sx={{ cursor: "pointer" }}
             >
               <LogoutOutlinedIcon color="white" />
-              <Typography variant="h6">Logout</Typography>
+              <Typography variant="h6" onClick={logoutHandler}>Logout</Typography>
             </Box>
           </Box>
         </Box>
