@@ -27,6 +27,8 @@ import logo from "./logo.png";
 import avatar from "./avatar.png";
 import axios from "../../api/axios";
 
+
+import {InputLabel,Input,FormControl} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationPopupBox from "../../components/NotificationPopupBox";
 
@@ -42,6 +44,9 @@ const Topbar = () => {
   const Navigate = useNavigate();
   const [lessStock, setLessStock] = useState([]);
   const [soonExpiryStock, setSoonExpiryStock] = useState([]);
+
+
+  const [title, setTitle]=useState("");
   useEffect(() => {
     let res = axios
       .get("http://localhost:3500/lessStockData", {
@@ -100,6 +105,21 @@ const Topbar = () => {
               Notifications
             </Typography>
           </Box>
+
+          <FormControl fullWidth={true}  required>
+            <InputLabel htmlFor={"title"}>{"Title"}</InputLabel>
+            <Input
+              id={"title"}
+              aria-describedby="my-helper-text"
+              value={title}
+              onChange={(e)=> setTitle(e.target.value)}
+              // error={errorFields["title"].error}
+              // inputRef={titleRef}
+            />
+            {/* <FormHelperText id="my-helper-text">
+              {errorFields["title"].formHelperText}
+            </FormHelperText> */}
+          </FormControl>
 
           <Box height="80%" width="100%" overflow="scroll">
             {lessStock.map((item) => {

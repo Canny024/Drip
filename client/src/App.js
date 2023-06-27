@@ -17,6 +17,7 @@ import ImportData from "./pages/ImportData";
 import Team from "./pages/Team";
 import Debt from "./pages/Debt";
 import NewInventoryPage from "./pages/NewInventoryPage";
+import Upload from "./pages/Upload";
 
 const ROLES = {
   Admin: 2001,
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/importData" element={<ImportData />} />
                 <Route path="/team" element={<Team />}  />
                 <Route path="/debt" element={<Debt />}  />
+                <Route path="/upload" element={<Upload />}  />
 
                 <Route path="/*" element={<Unauthorized />} />
               </Routes>
