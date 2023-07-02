@@ -45,7 +45,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 //serve static files
-// app.use("/", express.static(path.join(__dirname, "/public")));
+app.use(express.static("./client/build"));
+app.get("*",(req,res)=>{
+  res.sendFile(path.join(__dirname,"client", "build", "index.html"));
+});
+//
+ app.use("/", express.static(path.join(__dirname, "/public")));
 //app.use("/uploads",express.static("uploads"))
 
 // routes
@@ -93,10 +98,7 @@ app.use(errorHandler);
 
 // Production Script
 
-app.use(express.static("./client/build"));
-app.get("*",(req,res)=>{
-  res.sendFile(path.join(__dirname,"client", "build", "index.html"));
-});
+
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
