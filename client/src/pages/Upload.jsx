@@ -11,7 +11,7 @@ const Upload = () => {
     const formData = new FormData();
     formData.append("dataFile", dataFile);
     await axios
-      .post("http://localhost:3500/uploadImportData", formData, {
+      .post("https://dripapp-main.azurewebsites.net/uploadImportData", formData, {
         params: { userid: localStorage.getItem("userName") },
       })
       .then((res) => {
@@ -27,7 +27,7 @@ const Upload = () => {
     const formData = new FormData();
     formData.append("dataFile", dataFile);
     await axios
-      .post("http://localhost:3500/uploadBillData", formData, {
+      .post("https://dripapp-main.azurewebsites.net/uploadBillData", formData, {
         params: { userid: localStorage.getItem("userName") },
       })
       .then((res) => {

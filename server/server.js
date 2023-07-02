@@ -18,6 +18,8 @@ const PORT = process.env.PORT || 3500;
 const multer=require("multer")
 const upload=multer({dest:'uploads/'})
 const bodyParser=require('body-parser')
+
+
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 // Connect to MongoDB
@@ -88,6 +90,13 @@ app.all("*", (req, res) => {
 });
 
 app.use(errorHandler);
+
+// Production Script
+
+app.use(express.static("./client/build"));
+app.get("*",(req,res)=>{
+  res.sendFile(path.resolve(__dirname,"client", "build", "index.html"));
+});
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

@@ -10,7 +10,7 @@ const MakeBillPage = () => {
   const [allMedData,setAllMedData]=useState([]);
   useEffect(()=>{
     let res = axios
-      .get("http://localhost:3500/getAllMedData", {
+      .get("https://dripapp-main.azurewebsites.net/getAllMedData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
@@ -150,7 +150,7 @@ const MakeBillPage = () => {
       doctorDiscount: doctorDiscount,
     };
     const res = await axios.post(
-      "http://localhost:3500/addBillPost",
+      "https://dripapp-main.azurewebsites.net/addBillPost",
       newBillData,
       {
         params: { userId: localStorage.getItem("userName") },
