@@ -11,7 +11,7 @@ const ImportData = () => {
     const formData = new FormData();
     formData.append("dataFile", dataFile);
     await axios
-      .post("https://dripapp-main.azurewebsites.net/uploadImportData", formData, {
+      .post("http://localhost:3500/uploadImportData", formData, {
         params: { userid: localStorage.getItem("userName") },
       })
       .then((res) => {

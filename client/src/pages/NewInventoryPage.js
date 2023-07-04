@@ -7,7 +7,7 @@ const NewInventoryPage = () => {
   const [allStockData, setAllStockData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://dripapp-main.azurewebsites.net/currStockData", {
+      .get("http://localhost:3500/currStockData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {

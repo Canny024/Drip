@@ -36,7 +36,7 @@ const AddStockPage = () => {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("dataFile", dataFile);
-    await axios.post("https://dripapp-main.azurewebsites.net/uploadImportData", formData, {
+    await axios.post("http://localhost:3500/uploadImportData", formData, {
       params: { userid: localStorage.getItem("userName") },
     }).then((res)=>{
       console.log(res);

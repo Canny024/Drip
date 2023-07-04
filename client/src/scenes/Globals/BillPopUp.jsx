@@ -59,7 +59,7 @@ export default function BillPopUp() {
     console.log(billData);
 
     await axios.post(
-      "https://dripapp-main.azurewebsites.net/addBillPost",
+      "http://localhost:3500/addBillPost",
       billData,
       {
         params: { userId: localStorage.getItem("userName") },

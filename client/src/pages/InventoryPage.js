@@ -8,7 +8,7 @@ const InventoryPage = () => {
   const [allMedData, setAllMedData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://dripapp-main.azurewebsites.net/getCurrstock", {
+      .get("http://localhost:3500/getCurrstock", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {

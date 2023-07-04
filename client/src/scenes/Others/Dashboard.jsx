@@ -17,14 +17,14 @@ export default function Dashboard() {
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
      axios
-      .get("https://dripapp-main.azurewebsites.net/getCurrStock", {
+      .get("http://localhost:3500/getCurrStock", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
         setAllStockData(response.data);
       });
       axios
-      .get("https://dripapp-main.azurewebsites.net/getAllBillData", {
+      .get("http://localhost:3500/getAllBillData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
@@ -33,7 +33,7 @@ export default function Dashboard() {
       });
 
       axios
-      .get("https://dripapp-main.azurewebsites.net/lessStockData", {
+      .get("http://localhost:3500/lessStockData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
@@ -44,7 +44,7 @@ export default function Dashboard() {
       });
 
       axios
-      .get("https://dripapp-main.azurewebsites.net/soonExpiryStock", {
+      .get("http://localhost:3500/soonExpiryStock", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {

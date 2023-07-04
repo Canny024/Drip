@@ -7,13 +7,13 @@ const ImageUpload = () => {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("image", image);
-    await axios.post("https://dripapp-main.azurewebsites.net/uploadImage", formData, {
+    await axios.post("http://localhost:3500/uploadImage", formData, {
         params: { userId: localStorage.getItem("userName") },
       });
   };
   useEffect(()=>{
   axios
-      .get("https://dripapp-main.azurewebsites.net/getImageData", {
+      .get("http://localhost:3500/getImageData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
@@ -24,7 +24,7 @@ const ImageUpload = () => {
   return (
     <div>
       <h1>img</h1>
-      {imageUrl && <img src={`https://dripapp-main.azurewebsites.net/${imageUrl}`} style={{height:'100px', width:"100px"}}/>}
+      {imageUrl && <img src={`http://localhost:3500/${imageUrl}`} style={{height:'100px', width:"100px"}}/>}
      {<input
         onChange={(e) => {
           setImage(e.target.files[0]);

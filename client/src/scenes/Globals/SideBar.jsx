@@ -61,13 +61,13 @@ const SideBar = () => {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("image", image);
-    await axios.post("https://dripapp-main.azurewebsites.net/uploadImage", formData, {
+    await axios.post("http://localhost:3500/uploadImage", formData, {
       params: { userId: localStorage.getItem("userName") },
     });
   };
   useEffect(() => {
     axios
-      .get("https://dripapp-main.azurewebsites.net/getImageData", {
+      .get("http://localhost:3500/getImageData", {
         params: { userId: localStorage.getItem("userName") },
       })
       .then((response) => {
@@ -149,7 +149,7 @@ const SideBar = () => {
                 <Box display="flex" justifyContent="center" alignItems="center">
                   {imageUrl && (
                     <img
-                      src={`https://dripapp-main.azurewebsites.net/${imageUrl}`}
+                      src={`http://localhost:3500/${imageUrl}`}
                       alt="profile-user"
                       width="100px"
                       height="100px"
